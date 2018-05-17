@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e8049556ba7b488f81ca60cd063ca1c6" Name="Diagram1">
+        <EntityTypeShape EntityType="prbd_1718_presences_g13.Model.Certificate" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="prbd_1718_presences_g13.Model.Course" Width="1.5" PointX="6" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="prbd_1718_presences_g13.Model.CourseOccurrence" Width="1.5" PointX="8.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="prbd_1718_presences_g13.Model.Presence" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="prbd_1718_presences_g13.Model.Student" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="prbd_1718_presences_g13.Model.User" Width="1.5" PointX="3.75" PointY="7.25" IsExpanded="true" />
+        <AssociationConnector Association="prbd_1718_presences_g13.Model.certificate_certificate_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="prbd_1718_presences_g13.Model.course_course_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="prbd_1718_presences_g13.Model.courseoccurrence_courseoccurrence_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="prbd_1718_presences_g13.Model.presence_presence_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="prbd_1718_presences_g13.Model.presence_presence_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="prbd_1718_presences_g13.Model.studentcourses" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

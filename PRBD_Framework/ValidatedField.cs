@@ -13,16 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace prbd_1718_presences_g13
+namespace PRBD_Framework
 {
-    /// <summary>
-    /// Logique d'interaction pour MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public class ValidatedField : StackPanel
     {
-        public MainWindow()
+        public override void EndInit()
         {
-            InitializeComponent();
+            var err = new ErrorMessages { MyTarget = (FrameworkElement)Children[0] };
+            Children.Add(err);
+            base.EndInit();
         }
     }
 }
