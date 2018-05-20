@@ -16,12 +16,12 @@
         </Grid.RowDefinitions>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="35"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="45"/>
-                <RowDefinition Height="45"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -42,21 +42,21 @@
             <ComboBox Grid.Row="3" SelectedValue="{Binding DayOfWeek}" DisplayMemberPath="Days" ItemsSource="{Binding Courses}" VerticalAlignment="Center" Margin="0,1,0,2" Grid.Column="1" />
             <Label Content="Dates :" Grid.Row="4" VerticalAlignment="Center"/>
             <Label Content="Début:" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" />
-            <f:ValidatedField Grid.Row="4" Grid.Column="1" VerticalAlignment="Center">
-                <DatePicker Name="Sdate"  Grid.Column="1" Grid.Row="4" SelectedDate="{Binding StartDate}" VerticalAlignment="Center" Margin="50,0,50,0"  />
+            <f:ValidatedField Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="50,0,20,0">
+                <DatePicker Name="Sdate"  Grid.Column="1" Grid.Row="4" SelectedDate="{Binding StartDate}" VerticalAlignment="Center"  />
             </f:ValidatedField>
             <Label Content="Fin:" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" />
-            <f:ValidatedField Grid.Row="4" Grid.Column="2" VerticalAlignment="Center">
-                <DatePicker Name="Fdate"  Grid.Column="2" Grid.Row="4" SelectedDate="{Binding FinishDate}" VerticalAlignment="Center" Margin="30,0,70,0"  />
+            <f:ValidatedField Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,40,0">
+                <DatePicker Name="Fdate"  Grid.Column="2" Grid.Row="4" SelectedDate="{Binding FinishDate}" VerticalAlignment="Center"  />
             </f:ValidatedField>
             <Label Content="Heures :" Grid.Row="5" VerticalAlignment="Center" />
             <Label Content="Début:" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" />
-            <f:ValidatedField Grid.Row="5" Grid.Column="1" VerticalAlignment="Center">
-                <TextBox  Grid.Column="1" Grid.Row="5" Text="{Binding StartTime}" VerticalAlignment="Center" Margin="50,0,50,0"  />
+            <f:ValidatedField Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Margin="50,0,20,0" >
+                <TextBox  Grid.Column="1" Grid.Row="5" Text="{Binding StartTime}" VerticalAlignment="Center"  />
             </f:ValidatedField>
             <Label Content="Fin:" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" />
-            <f:ValidatedField Grid.Row="5" Grid.Column="2" VerticalAlignment="Center">
-                <TextBox  Grid.Column="2" Grid.Row="5" Text="{Binding EndTime}" VerticalAlignment="Center" Margin="30,0,70,0"  />
+            <f:ValidatedField Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,40,0">
+                <TextBox  Grid.Column="2" Grid.Row="5" Text="{Binding EndTime}" VerticalAlignment="Center"   />
             </f:ValidatedField>
         </Grid>
 
