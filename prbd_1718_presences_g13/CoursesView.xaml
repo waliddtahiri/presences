@@ -35,7 +35,7 @@
         <Label Content="Fin:" Grid.Row="1" Grid.Column="2" />
         <DatePicker Name="FinishDate" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Margin="30,0,70,0"  />
         <Label Content="Professeur :" Grid.Row="2" />
-        <ComboBox Name="prof"  IsEnabled="{Binding IsNew}"   DisplayMemberPath="FullName" ItemsSource="{Binding Users}"  Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  />
+        <ComboBox Name="prof"   DisplayMemberPath="FullName" ItemsSource="{Binding Users}"  Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  />
         <Label Content="Has Inscriptions :" Grid.Row="3" />
         <CheckBox  Grid.Column="1" Grid.Row="3" VerticalAlignment="Center"  />
         <Button Content="Clear All" Grid.Row="4" Grid.Column="1" Command="{Binding ClearFilter}" Margin="0,0,100,0" />

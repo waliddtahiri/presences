@@ -15,6 +15,7 @@ namespace prbd_1718_presences_g13
     public partial class App : Application
     {
         public const string MSG_DISPLAY_COURSE = "MSG_DISPLAY_COURSE";
+        public const string MSG_NEW_COURSE = "MSG_NEW_COURSE";
 
 
         public static Entities Model { get; private set; } = new Entities();
@@ -30,7 +31,7 @@ namespace prbd_1718_presences_g13
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(Settings.Default.Culture);
 
             CultureInfo ci = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
-            ci.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
+            ci.DateTimeFormat.ShortDatePattern = "dd-MM-yyyy";
             Thread.CurrentThread.CurrentCulture = ci;
 
         }
@@ -48,9 +49,13 @@ namespace prbd_1718_presences_g13
             // activation du log dans la console
             model.Database.Log = Console.Write;
 
-            // affichage du pseudo de tous les membres
-            foreach (var m in model.course)
-                Console.WriteLine(m.StartDate.ToShortDateString());
+            foreach (var sd in model.course)
+            {
+                    if (sd.StartDate.CompareTo(new DateTime(2018,02,05)) == 0)
+                    {
+                        Console.WriteLine(sd.StartDate);
+                    }
+            }
         }
 
 

@@ -34,14 +34,18 @@ namespace prbd_1718_presences_g13
         public ObservableCollection<Student> Students { get; private set; }
         public ObservableCollection<Student> NonStudents { get; set; }
 
-        private DataView location;
-        public DataView Location
+        String[] Jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
+
+        public List<String> Days { get; private set; }
+
+        private DataView presence;
+        public DataView Presence
         {
-            get { return location; }
+            get { return presence; }
             set
             {
-                location = value;
-                RaisePropertyChanged(nameof(Location));
+                presence = value;
+                RaisePropertyChanged(nameof(presence));
             }
         }
 
@@ -60,7 +64,7 @@ namespace prbd_1718_presences_g13
         {
             DataContext = this;
 
-            
+            IsNew = isNew;
 
             Course = course;
 
@@ -72,6 +76,8 @@ namespace prbd_1718_presences_g13
             Presences = new ObservableCollection<Presence>(App.Model.presence);
             NonStudents = new ObservableCollection<Student>(AllStudents.Except(Students));
 
+            
+
             InitializeComponent();
 
             var table = new DataTable();
@@ -79,26 +85,33 @@ namespace prbd_1718_presences_g13
             table = new DataTable();
             table.Columns.Add("Etudiant");
             int i = 1;
-            foreach (var p in CoursesOccurrence)
+            foreach (CourseOccurrence p in CoursesOccurrence)
             {
                 table.Columns.Add(p.Date.ToShortDateString());
                 columns[i] = p.Id;
                 ++i;
             }
-            foreach (var s in Students)
+            foreach (Student s in Students)
             {
                 var row = table.NewRow();
-                row[0] = s.LastName + ", " + s.FirstName;
+                row[0] = s.LastName + ", " + s.FirstName; 
                 for (int j = 1; j < table.Columns.Count; ++j)
                 {
                     int idL = columns[j];
-                    var ids = from pr in s.Presence select pr.CourseOccurence;
-                    string txt = ids.Contains(idL) ? "P" : "A";
+                    var idp = from p in s.Presence where s.Id == p.Student && p.Present == 1 select p.CourseOccurrence.Id;
+                    var ida = from a in s.Presence where s.Id == a.Student && a.Present == 0 select a.CourseOccurrence.Id;
+                    string txt = "";
+                    if (idp.Contains(idL))
+                        txt = "P";
+                    else if (ida.Contains(idL))
+                        txt = "A";
+                    else
+                        txt = "?";
                     row[j] = txt;
                 }
                 table.Rows.Add(row);
             }
-            Location = table.DefaultView;
+            Presence = table.DefaultView;
 
             
 
@@ -120,6 +133,7 @@ namespace prbd_1718_presences_g13
             set
             {
                 Course.Title = value;
+                Valid();
                 RaisePropertyChanged(nameof(Title));
             }
         }
@@ -130,9 +144,10 @@ namespace prbd_1718_presences_g13
             set
             {
                 Course.DayOfWeek = value;
-                RaisePropertyChanged(nameof(Title));
+                RaisePropertyChanged(nameof(DayOfWeek));
             }
         }
+
 
         public User Teacher
         {
@@ -140,8 +155,85 @@ namespace prbd_1718_presences_g13
             set
             {
                 Course.User = value;
+                Valid();
                 RaisePropertyChanged(nameof(Teacher));
             }
+        }
+
+        public DateTime StartDate
+        {
+            get { return Course.StartDate; }
+            set
+            {
+                Course.StartDate = value;
+                RaisePropertyChanged(nameof(StartDate));
+                Valid();
+            }
+        }
+
+        public DateTime FinishDate
+        {
+            get { return Course.FinishDate; }
+            set
+            {
+                Course.FinishDate = value;
+                RaisePropertyChanged(nameof(FinishDate));
+                Valid();
+            }
+        }
+
+        public TimeSpan StartTime
+        {
+            get { return Course.StartTime; }
+            set
+            {
+                Course.StartTime = value;
+                RaisePropertyChanged(nameof(StartTime));
+                Valid();
+            }
+        }
+
+        public TimeSpan EndTime
+        {
+            get { return Course.EndTime; }
+            set
+            {
+                Course.EndTime = value;
+                RaisePropertyChanged(nameof(EndTime));
+                Valid();
+            }
+        }
+
+        private bool Valid()
+        {
+            if (isNew)
+            {
+                ClearErrors();
+
+                if (string.IsNullOrEmpty(Title))
+                {
+                    AddError("Title", Properties.Resources.Error_RequiredTitle);
+                }
+                if (Teacher == null)
+                {
+                        AddError("Teacher", Properties.Resources.Error_Required); 
+                }
+                if (StartDate.CompareTo(FinishDate)>0)
+                {
+                        AddError("StartDate", Properties.Resources.Error_StartDate);
+                        AddError("FinishDate", Properties.Resources.Error_FinishDate);
+                }
+                if (StartTime.CompareTo(EndTime) > 0)
+                {
+                    AddError("StartTime", Properties.Resources.Error_StartTime);
+                    AddError("EndTime", Properties.Resources.Error_EndTime);
+                }
+
+            }
+            
+            RaiseErrors();
+
+            return true;
         }
 
         private Course selectedCourse;

@@ -46,6 +46,14 @@ namespace prbd_1718_presences_g13
 
             });
 
+            App.Messenger.Register(App.MSG_NEW_COURSE,
+                () =>
+                {
+                    // crée une nouvelle instance pour un nouveau client
+                    var course = App.Model.course.Create();
+                    newTabForCourse(course, true);
+                });
+
             void newTabForCourse(Course course, bool isNew)
             {
                 var tab = new TabItem()

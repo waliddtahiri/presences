@@ -44,6 +44,7 @@ namespace prbd_1718_presences_g13
 
         public ICommand ClearFilter { get; set; }
         public ICommand DisplayCoursesDetails { get; set; }
+        public ICommand NewCourse { get; set; }
 
         private string filter;
         public string Filter
@@ -73,27 +74,33 @@ namespace prbd_1718_presences_g13
 
             Users = new ObservableCollection<User>(App.Model.user);
 
+            NewCourse = new RelayCommand(() => { App.Messenger.NotifyColleagues(App.MSG_NEW_COURSE); Filter = ""; });
 
-            StudentsCount();
+            ClearFilter = new RelayCommand(() => { Filter = ""; prof.SelectedValue = ""; StartDate.SelectedDate = null;
+                          FinishDate.SelectedDate = null; Courses = new ObservableCollection<Course>(App.Model.course); });
 
-            ClearFilter = new RelayCommand(() => { Filter = ""; prof.SelectedValue = ""; Courses = new ObservableCollection<Course>(App.Model.course); });
-            
             InitializeComponent();
 
             prof.SelectionChanged += new SelectionChangedEventHandler(ProfChanged);
+            StartDate.SelectedDateChanged += new EventHandler<SelectionChangedEventArgs>(StartDateChanged);
+            FinishDate.SelectedDateChanged += new EventHandler<SelectionChangedEventArgs>(FinishDateChanged);
         }
 
-        private void StudentsCount()
-        {
-            foreach (Course c in Courses)
-                c.Student.Count();
-        }
 
         private void ProfChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplyFilterAction();
-            Filter = "";
-        } 
+        }
+
+        private void StartDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplyFilterAction();
+        }
+
+        private void FinishDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplyFilterAction();
+        }
 
         private void ApplyFilterAction()
         {
@@ -105,6 +112,7 @@ namespace prbd_1718_presences_g13
                                select c;
 
                 Courses = new ObservableCollection<Course>(filtered);
+
                 if (prof.SelectedValue != null)
                 {
                     var filterez = from c in Courses
@@ -113,32 +121,42 @@ namespace prbd_1718_presences_g13
                                    select c;
 
                     Courses = new ObservableCollection<Course>(filterez);
+                }
 
+                if (StartDate.SelectedDate != null && FinishDate.SelectedDate != null && StartDate.SelectedDate <= FinishDate.SelectedDate)
+                {
+                    var filteredd = from c in Courses
+                                    where
+                                    c.StartDate.CompareTo(StartDate.SelectedDate) >= 0 && c.FinishDate.CompareTo(FinishDate.SelectedDate) <= 0
+                                    select c;
+
+                    Courses = new ObservableCollection<Course>(filteredd);
                 }
             }
-            else if(string.IsNullOrEmpty(Filter) && prof.SelectedValue !=null) 
+            else if (string.IsNullOrEmpty(Filter))
             {
-                var filtered = from c in Courses
-                               where
-                               c.User.Equals(prof.SelectedValue) 
-                               select c;
+                if (prof.SelectedValue != null)
+                {
+                    var filtered = from c in Courses
+                                   where
+                                   c.User.Equals(prof.SelectedValue)
+                                   select c;
 
-                Courses = new ObservableCollection<Course>(filtered);
+                    Courses = new ObservableCollection<Course>(filtered);
+                }
 
-            }
-            else if(StartDate.SelectedDate!= null && FinishDate.SelectedDate != null)
-            {
-                var filtered = from c in Courses
-                               where
-                               c.StartDate.ToShortDateString().Equals(StartDate.SelectedDate.Value) && c.FinishDate.ToShortDateString().Equals(FinishDate.SelectedDate.Value)
-                               select c;
+                if (StartDate.SelectedDate != null && FinishDate.SelectedDate != null && StartDate.SelectedDate <= FinishDate.SelectedDate)
+                {
+                    var filteredd = from c in Courses
+                                    where
+                                    c.StartDate.CompareTo(StartDate.SelectedDate) >= 0 && c.FinishDate.CompareTo(FinishDate.SelectedDate) <= 0
+                                    select c;
 
-                Courses = new ObservableCollection<Course>(filtered);
+                    Courses = new ObservableCollection<Course>(filteredd);
+                }
             }
             else
                 Courses = new ObservableCollection<Course>(App.Model.course);
-
-
         }
 
 
