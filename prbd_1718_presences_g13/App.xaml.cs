@@ -20,6 +20,7 @@ namespace prbd_1718_presences_g13
 
         public static Entities Model { get; private set; } = new Entities();
         public static Messenger Messenger { get; } = new Messenger();
+        public static User CurrentUser { get; set; }
 
 
         public App()
@@ -27,6 +28,8 @@ namespace prbd_1718_presences_g13
             PrepareDatabase();
 
             TestingEntityFramework();
+
+            ColdStart();
 
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(Settings.Default.Culture);
 
@@ -49,13 +52,11 @@ namespace prbd_1718_presences_g13
             // activation du log dans la console
             model.Database.Log = Console.Write;
 
-            foreach (var sd in model.course)
-            {
-                    if (sd.StartDate.CompareTo(new DateTime(2018,02,05)) == 0)
-                    {
-                        Console.WriteLine(sd.StartDate);
-                    }
-            }
+        }
+
+        private void ColdStart()
+        {
+            Model.user.Find(1);
         }
 
 
@@ -73,7 +74,7 @@ namespace prbd_1718_presences_g13
             if (!File.Exists(Path.Combine(dbPath, "prbd_1718_presences_gXX.mdf")))
             {
                 Console.WriteLine("Creating database...");
-                string script = File.ReadAllText(Path.Combine(dbPath, "prbd_1718_presences_g13.sql"));
+                string script = File.ReadAllText(Path.Combine(dbPath, "prbd_1718_presences_gXX.sql"));
 
                 // dans le script, on remplace "{DBPATH}" par le dossier où on veut créer la DB
                 script = script.Replace("{DBPATH}", dbPath);

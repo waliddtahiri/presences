@@ -80,6 +80,8 @@ namespace prbd_1718_presences_g13
 
             InitializeComponent();
 
+            Professor();
+
             var table = new DataTable();
             var columns = new Dictionary<int, int>();
             table = new DataTable();
@@ -112,9 +114,21 @@ namespace prbd_1718_presences_g13
                 table.Rows.Add(row);
             }
             Presence = table.DefaultView;
+        }
 
-            
-
+        private void Professor()
+        {
+            if(App.CurrentUser.Role == "teacher")
+            {
+                code.IsEnabled = false;
+                titre.IsEnabled = false;
+                prof.IsEnabled = false;
+                dayofweek.IsEnabled = false;
+                Sdate.IsEnabled = false;
+                Fdate.IsEnabled = false;
+                Stime.IsEnabled = false;
+                Etime.IsEnabled = false;
+            }
         }
 
         public int Code

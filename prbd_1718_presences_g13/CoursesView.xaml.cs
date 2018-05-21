@@ -40,7 +40,6 @@ namespace prbd_1718_presences_g13
         }
         public ObservableCollection<User> Users { get; private set; }
         public ObservableCollection<Student> Students { get; private set; }
-        public ObservableCollection<Course> AllCourses { get; private set; }
 
         public ICommand ClearFilter { get; set; }
         public ICommand DisplayCoursesDetails { get; set; }
@@ -68,22 +67,46 @@ namespace prbd_1718_presences_g13
 
             DisplayCoursesDetails = new RelayCommand<Course>(c => { App.Messenger.NotifyColleagues(App.MSG_DISPLAY_COURSE, c); });
 
-            Courses = new ObservableCollection<Course>(App.Model.course);
+            
+                Courses = new ObservableCollection<Course>(App.Model.course);
 
-            AllCourses = new ObservableCollection<Course>(App.Model.course);
+                Users = new ObservableCollection<User>(App.Model.user);
 
-            Users = new ObservableCollection<User>(App.Model.user);
+                NewCourse = new RelayCommand(() => { App.Messenger.NotifyColleagues(App.MSG_NEW_COURSE); Filter = ""; });
 
-            NewCourse = new RelayCommand(() => { App.Messenger.NotifyColleagues(App.MSG_NEW_COURSE); Filter = ""; });
-
-            ClearFilter = new RelayCommand(() => { Filter = ""; prof.SelectedValue = ""; StartDate.SelectedDate = null;
-                          FinishDate.SelectedDate = null; Courses = new ObservableCollection<Course>(App.Model.course); });
+            if (App.CurrentUser.Role == "admin")
+            {
+                ClearFilter = new RelayCommand(() =>
+                {
+                    Filter = ""; prof.SelectedValue = ""; StartDate.SelectedDate = null;
+                    FinishDate.SelectedDate = null; Courses = new ObservableCollection<Course>(App.Model.course);
+                });
+            }
+            else
+            {
+                ClearFilter = new RelayCommand(() => {
+                    Filter = ""; StartDate.SelectedDate = null;
+                    FinishDate.SelectedDate = null; Courses = new ObservableCollection<Course>(App.CurrentUser.Course);
+                });
+            }
 
             InitializeComponent();
 
             prof.SelectionChanged += new SelectionChangedEventHandler(ProfChanged);
             StartDate.SelectedDateChanged += new EventHandler<SelectionChangedEventArgs>(StartDateChanged);
             FinishDate.SelectedDateChanged += new EventHandler<SelectionChangedEventArgs>(FinishDateChanged);
+
+            Teacher();
+        }
+
+        private void Teacher()
+        {
+            if(App.CurrentUser.Role == "teacher")
+            {
+                Courses = new ObservableCollection<Course>(App.CurrentUser.Course);
+                prof.SelectedItem = App.CurrentUser;
+                prof.IsEnabled = false;
+            }
         }
 
 

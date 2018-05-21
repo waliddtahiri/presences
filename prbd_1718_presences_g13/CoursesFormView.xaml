@@ -31,37 +31,37 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Code :" VerticalAlignment="Center"/>
-            <TextBox  Grid.Column="1"  Text="{Binding Code}" VerticalAlignment="Center" Margin="0,0,-73,0" />
+            <TextBox Name="code"  Grid.Column="1"  Text="{Binding Code}" VerticalAlignment="Center" Margin="0,0,-73,0" />
             <Label Content="Title:" Grid.Row="1" VerticalAlignment="Center"/>
             <f:ValidatedField Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" >
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Title}" VerticalAlignment="Center" Margin="0,0,-73,0" />
+                <TextBox Name="titre" Grid.Row="1" Grid.Column="1" Text="{Binding Title}" VerticalAlignment="Center" Margin="0,0,-73,0" />
             </f:ValidatedField>
             <Label Content="Teacher:" Grid.Row="2" VerticalAlignment="Center"/>
             <ComboBox Name="prof" SelectedItem="{Binding Teacher}"  DisplayMemberPath="FullName" ItemsSource="{Binding Users}"  Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  />
             <Label Content="Day Of Week :" Grid.Row="3" VerticalAlignment="Center" />
-            <ComboBox Grid.Row="3" SelectedValue="{Binding DayOfWeek}" DisplayMemberPath="Days" ItemsSource="{Binding Courses}" VerticalAlignment="Center" Margin="0,1,0,2" Grid.Column="1" />
+            <ComboBox Name="dayofweek" Grid.Row="3" SelectedValue="{Binding DayOfWeek}" DisplayMemberPath="Days" ItemsSource="{Binding Courses}" VerticalAlignment="Center" Margin="0,1,0,2" Grid.Column="1" />
             <Label Content="Dates :" Grid.Row="4" VerticalAlignment="Center"/>
             <Label Content="Début:" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" />
-            <f:ValidatedField Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="50,0,20,0">
+            <f:ValidatedField Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="50,0,0,0">
                 <DatePicker Name="Sdate"  Grid.Column="1" Grid.Row="4" SelectedDate="{Binding StartDate}" VerticalAlignment="Center"  />
             </f:ValidatedField>
             <Label Content="Fin:" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" />
-            <f:ValidatedField Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,40,0">
+            <f:ValidatedField Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,15,0">
                 <DatePicker Name="Fdate"  Grid.Column="2" Grid.Row="4" SelectedDate="{Binding FinishDate}" VerticalAlignment="Center"  />
             </f:ValidatedField>
             <Label Content="Heures :" Grid.Row="5" VerticalAlignment="Center" />
             <Label Content="Début:" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" />
-            <f:ValidatedField Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Margin="50,0,20,0" >
-                <TextBox  Grid.Column="1" Grid.Row="5" Text="{Binding StartTime}" VerticalAlignment="Center"  />
+            <f:ValidatedField Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Margin="50,0,0,0" >
+                <TextBox Name="Stime"  Grid.Column="1" Grid.Row="5" Text="{Binding StartTime}" VerticalAlignment="Center"  />
             </f:ValidatedField>
             <Label Content="Fin:" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" />
-            <f:ValidatedField Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,40,0">
-                <TextBox  Grid.Column="2" Grid.Row="5" Text="{Binding EndTime}" VerticalAlignment="Center"   />
+            <f:ValidatedField Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,15,0">
+                <TextBox Name="Etime"  Grid.Column="2" Grid.Row="5" Text="{Binding EndTime}" VerticalAlignment="Center"   />
             </f:ValidatedField>
         </Grid>
 
 
-        <TabControl x:Name="tabControl" Margin="0,5,10,10" Grid.Row="2">
+        <TabControl x:Name="tabControl" Margin="0,0,10,10" Grid.Row="2">
             <TabItem Header="Inscriptions">
                 <ContentControl>
                     <Grid Margin="10,0,10,10">

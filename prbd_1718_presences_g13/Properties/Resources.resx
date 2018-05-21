@@ -117,22 +117,64 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Error_DoesNotExist" xml:space="preserve">
+    <value>does not exist</value>
+  </data>
   <data name="Error_EndTime" xml:space="preserve">
     <value>Doit être &gt;= heure de début</value>
   </data>
   <data name="Error_FinishDate" xml:space="preserve">
     <value>Doit être &gt;= date de début</value>
   </data>
+  <data name="Error_LengthGreaterEqual3" xml:space="preserve">
+    <value>length must be &gt;= 3</value>
+  </data>
+  <data name="Error_MustMatchConfirmPassword" xml:space="preserve">
+    <value>must match confirm password</value>
+  </data>
+  <data name="Error_MustMatchPassword" xml:space="preserve">
+    <value>must match password</value>
+  </data>
+  <data name="Error_NotAvailable" xml:space="preserve">
+    <value>not available</value>
+  </data>
   <data name="Error_Required" xml:space="preserve">
-    <value>Requis</value>
+    <value>required</value>
   </data>
   <data name="Error_RequiredTitle" xml:space="preserve">
     <value>Le titre est requis</value>
   </data>
   <data name="Error_StartDate" xml:space="preserve">
-    <value>Doit être&lt;= date de fin</value>
+    <value>Doit être &lt;= date de fin</value>
   </data>
   <data name="Error_StartTime" xml:space="preserve">
     <value>Doit être &lt;= heure de fin</value>
+  </data>
+  <data name="Error_WrongPassword" xml:space="preserve">
+    <value>wrong password</value>
+  </data>
+  <data name="LoginView_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="LoginView_Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginView_Message_1" xml:space="preserve">
+    <value>If your don't have a login and a password, click</value>
+  </data>
+  <data name="LoginView_Message_2" xml:space="preserve">
+    <value>here</value>
+  </data>
+  <data name="LoginView_Message_3" xml:space="preserve">
+    <value>to sign-up.</value>
+  </data>
+  <data name="LoginView_Password" xml:space="preserve">
+    <value>Password:</value>
+  </data>
+  <data name="LoginView_Pseudo" xml:space="preserve">
+    <value>Pseudo:</value>
+  </data>
+  <data name="LoginView_Title" xml:space="preserve">
+    <value>Login</value>
   </data>
 </root>

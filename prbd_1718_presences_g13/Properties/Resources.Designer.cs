@@ -22,7 +22,7 @@ namespace prbd_1718_presences_g13.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace prbd_1718_presences_g13.Properties {
         ///   Retourne l'instance ResourceManager mise en cache utilisée par cette classe.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("prbd_1718_presences_g13.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace prbd_1718_presences_g13.Properties {
         ///   les recherches de ressources à l'aide de cette classe de ressource fortement typée.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,18 @@ namespace prbd_1718_presences_g13.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à does not exist.
+        /// </summary>
+        public static string Error_DoesNotExist {
+            get {
+                return ResourceManager.GetString("Error_DoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Doit être &gt;= heure de début.
         /// </summary>
-        internal static string Error_EndTime {
+        public static string Error_EndTime {
             get {
                 return ResourceManager.GetString("Error_EndTime", resourceCulture);
             }
@@ -72,16 +81,52 @@ namespace prbd_1718_presences_g13.Properties {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à Doit être &gt;= date de début.
         /// </summary>
-        internal static string Error_FinishDate {
+        public static string Error_FinishDate {
             get {
                 return ResourceManager.GetString("Error_FinishDate", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Requis.
+        ///   Recherche une chaîne localisée semblable à length must be &gt;= 3.
         /// </summary>
-        internal static string Error_Required {
+        public static string Error_LengthGreaterEqual3 {
+            get {
+                return ResourceManager.GetString("Error_LengthGreaterEqual3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à must match confirm password.
+        /// </summary>
+        public static string Error_MustMatchConfirmPassword {
+            get {
+                return ResourceManager.GetString("Error_MustMatchConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à must match password.
+        /// </summary>
+        public static string Error_MustMatchPassword {
+            get {
+                return ResourceManager.GetString("Error_MustMatchPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à not available.
+        /// </summary>
+        public static string Error_NotAvailable {
+            get {
+                return ResourceManager.GetString("Error_NotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à required.
+        /// </summary>
+        public static string Error_Required {
             get {
                 return ResourceManager.GetString("Error_Required", resourceCulture);
             }
@@ -90,16 +135,16 @@ namespace prbd_1718_presences_g13.Properties {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à Le titre est requis.
         /// </summary>
-        internal static string Error_RequiredTitle {
+        public static string Error_RequiredTitle {
             get {
                 return ResourceManager.GetString("Error_RequiredTitle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Doit être&lt;= date de fin.
+        ///   Recherche une chaîne localisée semblable à Doit être &lt;= date de fin.
         /// </summary>
-        internal static string Error_StartDate {
+        public static string Error_StartDate {
             get {
                 return ResourceManager.GetString("Error_StartDate", resourceCulture);
             }
@@ -108,9 +153,90 @@ namespace prbd_1718_presences_g13.Properties {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à Doit être &lt;= heure de fin.
         /// </summary>
-        internal static string Error_StartTime {
+        public static string Error_StartTime {
             get {
                 return ResourceManager.GetString("Error_StartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à wrong password.
+        /// </summary>
+        public static string Error_WrongPassword {
+            get {
+                return ResourceManager.GetString("Error_WrongPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Cancel.
+        /// </summary>
+        public static string LoginView_Cancel {
+            get {
+                return ResourceManager.GetString("LoginView_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Login.
+        /// </summary>
+        public static string LoginView_Login {
+            get {
+                return ResourceManager.GetString("LoginView_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à If your don&apos;t have a login and a password, click.
+        /// </summary>
+        public static string LoginView_Message_1 {
+            get {
+                return ResourceManager.GetString("LoginView_Message_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à here.
+        /// </summary>
+        public static string LoginView_Message_2 {
+            get {
+                return ResourceManager.GetString("LoginView_Message_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à to sign-up..
+        /// </summary>
+        public static string LoginView_Message_3 {
+            get {
+                return ResourceManager.GetString("LoginView_Message_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Password:.
+        /// </summary>
+        public static string LoginView_Password {
+            get {
+                return ResourceManager.GetString("LoginView_Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Pseudo:.
+        /// </summary>
+        public static string LoginView_Pseudo {
+            get {
+                return ResourceManager.GetString("LoginView_Pseudo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Login.
+        /// </summary>
+        public static string LoginView_Title {
+            get {
+                return ResourceManager.GetString("LoginView_Title", resourceCulture);
             }
         }
     }

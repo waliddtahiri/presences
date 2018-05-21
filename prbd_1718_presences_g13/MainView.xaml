@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:prbd_1718_presences_g13"
         xmlns:f="clr-namespace:PRBD_Framework;assembly=PRBD_Framework"
         mc:Ignorable="d"
-        Title="MainView" Height="600" Width="900">
+        Title="MainView" Height="500" Width="900">
     <TabControl x:Name="tabControl" Margin="10" Grid.Row="1">
         <TabItem x:Name="coursesTab" Header="Courses">
             <ContentControl>
