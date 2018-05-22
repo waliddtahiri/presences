@@ -46,6 +46,20 @@ namespace prbd_1718_presences_g13
 
             });
 
+            App.Messenger.Register<CourseOccurrence>(App.MSG_DISPLAY_ENCODAGE, courseoccurrence =>
+            {
+                if (courseoccurrence != null)
+                {
+                    var tab = (from TabItem t in tabControl.Items where (string)t.Header == "Présences" select t).FirstOrDefault();
+                    if (tab == null)
+                        newTabForCourseOccurrence(courseoccurrence);
+                    else
+                        //Dispatcher.InvokeAsync(() => tab.Focus());
+                        tab.Focus();
+                }
+
+            });
+
             App.Messenger.Register(App.MSG_NEW_COURSE,
                 () =>
                 {
@@ -60,6 +74,28 @@ namespace prbd_1718_presences_g13
                 {
                     Header = isNew ? "New Course" : "Course " + course.Code,
                     Content = new CoursesFormView(course, isNew)
+                };
+                tab.MouseDown += (o, e) =>
+                {
+                    if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
+                        tabControl.Items.Remove(o);
+                };
+                tab.KeyDown += (o, e) =>
+                {
+                    if (e.Key == Key.W && Keyboard.IsKeyDown(Key.LeftCtrl))
+                        tabControl.Items.Remove(o);
+                };
+                tabControl.Items.Add(tab);
+                Dispatcher.InvokeAsync(() => tab.Focus());
+
+            }
+
+            void newTabForCourseOccurrence(CourseOccurrence courseoccurrence)
+            {
+                var tab = new TabItem()
+                {
+                    Header = "Présences",
+                    Content = new EncodageView(courseoccurrence)
                 };
                 tab.MouseDown += (o, e) =>
                 {

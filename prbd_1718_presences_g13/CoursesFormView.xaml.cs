@@ -60,6 +60,8 @@ namespace prbd_1718_presences_g13
             }
         }
 
+        public ICommand DisplayEncodage { get; set; }
+
         public CoursesFormView(Course course, bool isNew)
         {
             DataContext = this;
@@ -76,21 +78,22 @@ namespace prbd_1718_presences_g13
             Presences = new ObservableCollection<Presence>(App.Model.presence);
             NonStudents = new ObservableCollection<Student>(AllStudents.Except(Students));
 
-            
+
+            DisplayEncodage = new RelayCommand<CourseOccurrence>(c => { App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, c); });
 
             InitializeComponent();
 
             Professor();
 
             var table = new DataTable();
-            var columns = new Dictionary<int, int>();
+            var columns = new Dictionary<int, CourseOccurrence>();
             table = new DataTable();
             table.Columns.Add("Etudiant");
             int i = 1;
             foreach (CourseOccurrence p in CoursesOccurrence)
             {
                 table.Columns.Add(p.Date.ToShortDateString());
-                columns[i] = p.Id;
+                columns[i] = p;
                 ++i;
             }
             foreach (Student s in Students)
@@ -99,9 +102,9 @@ namespace prbd_1718_presences_g13
                 row[0] = s.LastName + ", " + s.FirstName; 
                 for (int j = 1; j < table.Columns.Count; ++j)
                 {
-                    int idL = columns[j];
-                    var idp = from p in s.Presence where s.Id == p.Student && p.Present == 1 select p.CourseOccurrence.Id;
-                    var ida = from a in s.Presence where s.Id == a.Student && a.Present == 0 select a.CourseOccurrence.Id;
+                    CourseOccurrence idL = columns[j];
+                    var idp = from p in s.Presence where s.Id == p.Student && p.Present == 1 select p.CourseOccurrence;
+                    var ida = from a in s.Presence where s.Id == a.Student && a.Present == 0 select a.CourseOccurrence;
                     string txt = "";
                     if (idp.Contains(idL))
                         txt = "P";
@@ -114,6 +117,8 @@ namespace prbd_1718_presences_g13
                 table.Rows.Add(row);
             }
             Presence = table.DefaultView;
+
+            DisplayEncodage = new RelayCommand<CourseOccurrence>(c => { App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, c); });
         }
 
         private void Professor()
@@ -261,5 +266,20 @@ namespace prbd_1718_presences_g13
             }
         }
 
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private CourseOccurrence selectedCourseOccurrence;
+        public CourseOccurrence SelectedCourseOccurrence
+        {
+
+            get { return selectedCourseOccurrence; }
+            set
+            {
+                selectedCourseOccurrence = value;
+            }
+        }
     }
 }

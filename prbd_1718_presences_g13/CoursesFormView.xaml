@@ -111,14 +111,14 @@
             </TabItem>
             <TabItem Header="Historique des présences">
                 <ContentControl>
-                    <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding Presence}" IsReadOnly="True" HorizontalAlignment="Left" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False">
+                    <DataGrid Name="datagrid" AutoGenerateColumns="True" ItemsSource="{Binding Presence}" SelectedItem="{Binding SelectedCourseOccurence}"  IsReadOnly="True" HorizontalAlignment="Left" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" SelectionChanged="DataGrid_SelectionChanged">
 
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="ContentTemplate" >
                                     <Setter.Value>
                                         <DataTemplate>
-                                            <Button Content="{Binding}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="80">
+                                            <Button  Content="{Binding}"  Command="{Binding DisplayEncodage}" CommandParameter="{Binding ElementName=datagrid, Path=SelectedItem}" IsEnabled="True" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="80">
                                                 <Button.LayoutTransform>
                                                     <RotateTransform Angle="270" />
                                                 </Button.LayoutTransform>

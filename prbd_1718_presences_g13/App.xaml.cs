@@ -15,6 +15,7 @@ namespace prbd_1718_presences_g13
     public partial class App : Application
     {
         public const string MSG_DISPLAY_COURSE = "MSG_DISPLAY_COURSE";
+        public const string MSG_DISPLAY_ENCODAGE = "MSG_DISPLAY_ENCODAGE";
         public const string MSG_NEW_COURSE = "MSG_NEW_COURSE";
 
 

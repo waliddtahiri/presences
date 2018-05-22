@@ -14,5 +14,10 @@
                 <local:CoursesView/>
             </ContentControl>
         </TabItem>
+        <TabItem  Header="Planning">
+            <ContentControl>
+                <local:Planning/>
+            </ContentControl>
+        </TabItem>
     </TabControl>
 </f:WindowBase>
