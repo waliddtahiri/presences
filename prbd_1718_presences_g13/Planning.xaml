@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:f="clr-namespace:PRBD_Framework;assembly=PRBD_Framework"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:prbd_1718_presences_g13"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="900">
@@ -12,11 +13,20 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Button x:Name="Left" Content="&lt;&lt;" Command="{Binding }"
-         HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Padding="5,1" Margin="6,2,0,0"/>
-        <Button x:Name="Right" Content=">>" Command="{Binding }"
-         HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Padding="5,1" Margin="167,2,0,0" RenderTransformOrigin="5.357,0.4"/>
-        <DatePicker SelectedDate="{Binding CoursesOccurence}" Name="CourseOccurrence" VerticalAlignment="Center" Margin="34,0,733,0"/>
+        <DockPanel>
+        <Button x:Name="Left" Content="&lt;&lt;" Command="{Binding PreviousWeek}"
+         HorizontalAlignment="Left" VerticalAlignment="Center" Width="28" Padding="5,1"/>
+            <DatePicker Name="Datum" SelectedDate="{Binding Date}" VerticalAlignment="Center">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding DisplayEncodage}"
+                                        CommandParameter="{Binding Path=Selected}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </DatePicker>
+        <Button x:Name="Right" Content=">>" Command="{Binding NextWeek}"
+         HorizontalAlignment="Left" VerticalAlignment="Center" Width="28" Padding="5,1" RenderTransformOrigin="5.357,0.4"/>
+        </DockPanel>
         <ListView Grid.Row="1" ItemsSource="{Binding Courses}">
             <ListView.ItemTemplate>
                 <DataTemplate>

@@ -52,7 +52,7 @@ namespace prbd_1718_presences_g13
                 {
                     var tab = (from TabItem t in tabControl.Items where (string)t.Header == "Présences" select t).FirstOrDefault();
                     if (tab == null)
-                        newTabForCourseOccurrence(courseoccurrence);
+                        newTabForCourseOccurrence(courseoccurrence, courseoccurrence.Date);
                     else
                         //Dispatcher.InvokeAsync(() => tab.Focus());
                         tab.Focus();
@@ -90,12 +90,12 @@ namespace prbd_1718_presences_g13
 
             }
 
-            void newTabForCourseOccurrence(CourseOccurrence courseoccurrence)
+            void newTabForCourseOccurrence(CourseOccurrence courseoccurrence, DateTime date)
             {
                 var tab = new TabItem()
                 {
                     Header = "Présences",
-                    Content = new EncodageView(courseoccurrence)
+                    Content = new EncodageView(courseoccurrence, date)
                 };
                 tab.MouseDown += (o, e) =>
                 {

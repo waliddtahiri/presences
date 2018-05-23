@@ -36,8 +36,6 @@ namespace prbd_1718_presences_g13
 
         String[] Jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
-        public List<String> Days { get; private set; }
-
         private DataView presence;
         public DataView Presence
         {
@@ -77,7 +75,6 @@ namespace prbd_1718_presences_g13
             CoursesOccurrence = new ObservableCollection<CourseOccurrence>(Course.CourseOccurrence);
             Presences = new ObservableCollection<Presence>(App.Model.presence);
             NonStudents = new ObservableCollection<Student>(AllStudents.Except(Students));
-
 
             DisplayEncodage = new RelayCommand<CourseOccurrence>(c => { App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, c); });
 
@@ -157,13 +154,13 @@ namespace prbd_1718_presences_g13
             }
         }
 
-        public int DayOfWeek
+        public int DaysOfWeek
         {
             get { return Course.DayOfWeek; }
             set
             {
                 Course.DayOfWeek = value;
-                RaisePropertyChanged(nameof(DayOfWeek));
+                RaisePropertyChanged(nameof(DaysOfWeek));
             }
         }
 

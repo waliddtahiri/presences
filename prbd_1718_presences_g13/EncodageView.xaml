@@ -8,21 +8,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="128"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <TextBlock Text="{Binding Students}"/>
-        <RadioButton Grid.Column="1" Content="Présent"/>
-        <RadioButton Grid.Column="2" Content="Absent"/>
+        <ListView ItemsSource="{Binding Students}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <DockPanel>
+                        <TextBlock Text="{Binding Path=LastName}"/>
+                        <TextBlock Text=", "/>
+                        <TextBlock Text="{Binding Path=FirstName}"/>
+                        <TextBlock Text=": "/>
+                        </DockPanel>
+                        <RadioButton Content="Présent"/>
+                        <RadioButton Content="Absent"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </f:UserControlBase>
