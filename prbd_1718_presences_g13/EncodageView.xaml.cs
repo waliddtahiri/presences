@@ -30,12 +30,11 @@ namespace prbd_1718_presences_g13
         public ObservableCollection<User> Users { get; private set; }
         public ObservableCollection<Student> Students { get; private set; }
 
-        public EncodageView(CourseOccurrence courseoccurence, DateTime date)
+        public EncodageView(CourseOccurrence courseoccurence)
         {
             DataContext = this;
 
             CourseOccurence = courseoccurence;
-            CourseOccurence.Date = date;
 
             Courses = new ObservableCollection<Course>(App.CurrentUser.Course);
             Students = new ObservableCollection<Student>(CourseOccurence.Course.Student);
@@ -43,7 +42,9 @@ namespace prbd_1718_presences_g13
             CoursesOccurrence = new ObservableCollection<CourseOccurrence>(App.Model.courseoccurrence);
             Presences = new ObservableCollection<Presence>(CourseOccurence.Presence);
 
+
             InitializeComponent();
+
         }
 
     }

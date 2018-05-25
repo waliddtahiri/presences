@@ -4,25 +4,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:f="clr-namespace:PRBD_Framework;assembly=PRBD_Framework"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:prbd_1718_presences_g13"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
-        <ListView ItemsSource="{Binding Students}">
-            <ListView.ItemTemplate>
+        <ListBox Name="list" ItemsSource="{Binding Presences}" IsSynchronizedWithCurrentItem="True" SelectedItem="{Binding SelectedPresence}">
+            <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <DockPanel>
-                        <TextBlock Text="{Binding Path=LastName}"/>
+                    <DockPanel>
+                        <TextBlock Text="{Binding Path=Students.LastName}"/>
                         <TextBlock Text=", "/>
-                        <TextBlock Text="{Binding Path=FirstName}"/>
+                        <TextBlock Text="{Binding Path=Students.FirstName}"/>
                         <TextBlock Text=": "/>
-                        </DockPanel>
-                        <RadioButton Content="Présent"/>
-                        <RadioButton Content="Absent"/>
-                    </StackPanel>
+                        <RadioButton  Content="Présent" IsChecked="{Binding Path=IsPresent}"/>
+                        <RadioButton  Content="Absent" IsChecked="{Binding Path=IsAbsent}"/>
+                    </DockPanel>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </f:UserControlBase>

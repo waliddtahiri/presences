@@ -114,8 +114,6 @@ namespace prbd_1718_presences_g13
                 table.Rows.Add(row);
             }
             Presence = table.DefaultView;
-
-            DisplayEncodage = new RelayCommand<CourseOccurrence>(c => { App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, c); });
         }
 
         private void Professor()

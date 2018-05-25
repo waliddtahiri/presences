@@ -41,17 +41,30 @@ namespace prbd_1718_presences_g13
 
             Courses = new ObservableCollection<Course>(App.CurrentUser.Course);
             CoursesOccurrence = new ObservableCollection<CourseOccurrence>(App.Model.courseoccurrence);
+            Presences = new ObservableCollection<Presence>(App.Model.presence);
 
             var s = from c in CoursesOccurrence
-                    where c.Course.Equals(Courses)
+                    where c.Course.User.Equals(App.CurrentUser) && c.Date.CompareTo(Date) >= 0 && c.Date.CompareTo(Date.AddDays(+7)) < 0
                     select c;
             CourseOccurrence = new ObservableCollection<CourseOccurrence>(s);
 
+            
+            PreviousWeek = new RelayCommand(() => { Datum.SelectedDate = Date.AddDays(-7); CourseOccurrence.RefreshFromModel(s); });
+            NextWeek = new RelayCommand(() => { Datum.SelectedDate = Date.AddDays(+7); CourseOccurrence.RefreshFromModel(s); });
             Presences = new ObservableCollection<Presence>(App.Model.presence);
-            PreviousWeek = new RelayCommand(() => { Datum.SelectedDate = Date.AddDays(-7); });
-            NextWeek = new RelayCommand(() => { Datum.SelectedDate = Date.AddDays(+7); });
+            DisplayEncodage = 
+            new RelayCommand<CourseOccurrence> (c => { 
+                foreach (Student st in c.Course.Student)
+                { 
+                    Presence p = new Presence(st.Id, c.Id);
+                    if (!Presences.Contains(p))
+                    {
+                        App.Model.presence.Add(p);
+                    }
+                }
 
-            DisplayEncodage = new RelayCommand<CourseOccurrence>(c => { App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, c); });
+                App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, c);
+            });
 
             InitializeComponent();
 
@@ -80,17 +93,18 @@ namespace prbd_1718_presences_g13
             
         }
 
+        public CourseOccurrence selected;
         public CourseOccurrence Selected
         {
-
             get
             {
-                return CoursesOccurrence.Where(c => c.Date.Equals(Date)).First();
+                return selected;
 
             }
 
             set
             {
+                selected = value;
             }
         }
 

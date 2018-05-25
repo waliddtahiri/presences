@@ -16,28 +16,27 @@
         <DockPanel>
         <Button x:Name="Left" Content="&lt;&lt;" Command="{Binding PreviousWeek}"
          HorizontalAlignment="Left" VerticalAlignment="Center" Width="28" Padding="5,1"/>
-            <DatePicker Name="Datum" SelectedDate="{Binding Date}" VerticalAlignment="Center">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding DisplayEncodage}"
-                                        CommandParameter="{Binding Path=Selected}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </DatePicker>
-        <Button x:Name="Right" Content=">>" Command="{Binding NextWeek}"
+            <DatePicker Name="Datum" SelectedDate="{Binding Date}" VerticalAlignment="Center"/>
+            <Button x:Name="Right" Content=">>" Command="{Binding NextWeek}"
          HorizontalAlignment="Left" VerticalAlignment="Center" Width="28" Padding="5,1" RenderTransformOrigin="5.357,0.4"/>
         </DockPanel>
-        <ListView Grid.Row="1" ItemsSource="{Binding Courses}">
+        <ListView Name="list" Grid.Row="1" ItemsSource="{Binding CourseOccurrence}" SelectedItem="{Binding Selected}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding DisplayEncodage}"
+                                        CommandParameter="{Binding ElementName=list, Path=SelectedItem}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
-                        <TextBlock FontSize="11"  Width="50"  Text="{Binding Path=DayOfWeek}" />
+                        <TextBlock FontSize="11"  Width="50"  Text="{Binding Path=Course.DayOfWeek}" />
                         <TextBlock FontSize="11"  Width="100"  Text="-------->" />
-                        <TextBlock FontSize="11"  Width="50"  Text="{Binding Path=StartTime}" />
+                        <TextBlock FontSize="11"  Width="50"  Text="{Binding Path=Course.StartTime}" />
                         <TextBlock FontSize="11"  Width="10"  Text="-" />
-                        <TextBlock FontSize="11"  Width="50"  Text="{Binding Path=EndTime}" />
+                        <TextBlock FontSize="11"  Width="50"  Text="{Binding Path=Course.EndTime}" />
                         <TextBlock FontSize="11"  Width="10"  Text=":" />
-                        <TextBlock FontSize="11"  Width="500"  Text="{Binding Path=Title}" />
+                        <TextBlock FontSize="11"  Width="500"  Text="{Binding Path=Course.Title}" />
                     </DockPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

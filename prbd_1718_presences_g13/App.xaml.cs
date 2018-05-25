@@ -17,6 +17,7 @@ namespace prbd_1718_presences_g13
         public const string MSG_DISPLAY_COURSE = "MSG_DISPLAY_COURSE";
         public const string MSG_DISPLAY_ENCODAGE = "MSG_DISPLAY_ENCODAGE";
         public const string MSG_NEW_COURSE = "MSG_NEW_COURSE";
+        public const string MSG_PRESENCE_CHANGED = "MSG_PRESENCE_CHANGED";
 
 
         public static Entities Model { get; private set; } = new Entities();

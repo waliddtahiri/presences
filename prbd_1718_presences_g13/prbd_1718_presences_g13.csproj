@@ -94,6 +94,7 @@
     <Compile Include="Planning.xaml.cs">
       <DependentUpon>Planning.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presence.ext.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
