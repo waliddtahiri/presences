@@ -16,7 +16,6 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="77"/>
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                         <DockPanel>
@@ -26,12 +25,10 @@
                         <TextBlock Text=": "/>
                         </DockPanel>
                         <DockPanel Grid.Column="1">
-                        <RadioButton  Content="Présent" IsChecked="{Binding Path=IsPresent}"/>
+                                <RadioButton Content="Présent"  Width="70" IsChecked="{Binding Path=IsPresent}"/>
+                                <RadioButton Content="Absent" Width="70" IsChecked="{Binding Path=IsAbsent}"/>
                         </DockPanel>
-                            <DockPanel Grid.Column="2">
-                                <RadioButton  Content="Absent" IsChecked="{Binding Path=IsAbsent}"/>
-                        </DockPanel>
-                            </Grid>
+                        </Grid>
                             </DockPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

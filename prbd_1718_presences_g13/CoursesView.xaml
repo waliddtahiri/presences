@@ -51,7 +51,7 @@
                 <DataGridTextColumn  IsReadOnly="True" Header = "Title" Binding="{Binding Path=Title}" Width="250" />
                 <DataGridTextColumn  IsReadOnly="True" Header = "Start Date" Binding="{Binding Path=StartDate, StringFormat=\{0:dd-MM-yyyy\}}" Width="70" />
                 <DataGridTextColumn  IsReadOnly="True" Header = "Finish Date" Binding="{Binding Path=FinishDate, StringFormat=\{0:dd-MM-yyyy\}}" Width="70" />
-                <DataGridTextColumn  IsReadOnly="True" Header = "Day Of Week" Binding="{Binding Path=DayOfWeek}" Width="75" />
+                <DataGridTextColumn  IsReadOnly="True" Header = "Day Of Week" Binding="{Binding Path=JourSemaine}" Width="75" />
                 <DataGridTextColumn  IsReadOnly="True" Header = "Start Time" Binding="{Binding Path=StartTime}" Width="60" />
                 <DataGridTextColumn  IsReadOnly="True" Header = "End Time" Binding="{Binding Path=EndTime}" Width="60" />
                 <DataGridTextColumn  IsReadOnly="True" Header = "Teacher" Binding="{Binding Path=User.FullName}" Width="80" />

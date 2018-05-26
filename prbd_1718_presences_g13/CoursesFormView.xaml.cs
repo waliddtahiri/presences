@@ -33,8 +33,8 @@ namespace prbd_1718_presences_g13
         public ObservableCollection<Student> AllStudents { get; private set; }
         public ObservableCollection<Student> Students { get; private set; }
         public ObservableCollection<Student> NonStudents { get; set; }
+        public ObservableCollection<String> Day { get; set; }
 
-        String[] Jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 
         private DataView presence;
         public DataView Presence
@@ -77,6 +77,7 @@ namespace prbd_1718_presences_g13
             CoursesOccurrence = new ObservableCollection<CourseOccurrence>(Course.CourseOccurrence);
             Presences = new ObservableCollection<Presence>(App.Model.presence);
             NonStudents = new ObservableCollection<Student>(AllStudents.Except(Students));
+            Day = new ObservableCollection<String>(Course.Day);
 
             DisplayEncodage = new RelayCommand<CourseOccurrence>(c => { App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, c); });
 
@@ -84,6 +85,7 @@ namespace prbd_1718_presences_g13
                     Course.Student.Add(NonStudents.First());
                     NonStudents.Remove(NonStudents.First());
                     Students.RefreshFromModel(Course.Student);
+                    App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
                 }
             });
 
@@ -93,7 +95,10 @@ namespace prbd_1718_presences_g13
                     Students.Remove(Students.First()); }
                     Students.RefreshFromModel(Course.Student);
                     NonStudents.RefreshFromModel(AllStudents.Except(Students));
+                    App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
             });
+
+            
 
             InitializeComponent();
 
@@ -101,6 +106,7 @@ namespace prbd_1718_presences_g13
 
             HistoriquePrésences();
         }
+
 
         private void HistoriquePrésences()
         {

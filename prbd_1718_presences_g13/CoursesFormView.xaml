@@ -39,7 +39,7 @@
             <Label  Content="Teacher:" Grid.Row="2" VerticalAlignment="Center"/>
             <ComboBox Name="prof" IsEnabled="{Binding Admin}" SelectedItem="{Binding Teacher}"  DisplayMemberPath="FullName" ItemsSource="{Binding Users}"  Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  />
             <Label Content="Day Of Week :" Grid.Row="3" VerticalAlignment="Center" />
-            <ComboBox Name="dayofweek" IsEnabled="{Binding Admin}" Grid.Row="3" SelectedValue="{Binding JourSemaine}" ItemsSource="{Binding Courses}"  VerticalAlignment="Center" Margin="0,1,0,2" Grid.Column="1" />
+            <ComboBox Name="dayofweek" IsEnabled="{Binding Admin}" Grid.Row="3" SelectedIndex="{Binding DaysOfWeek}" ItemsSource="{Binding Day}"  VerticalAlignment="Center" Margin="0,1,0,2" Grid.Column="1" />
             <Label Content="Dates :" Grid.Row="4" VerticalAlignment="Center"/>
             <Label Content="Début:" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" />
             <f:ValidatedField Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="50,0,0,0">

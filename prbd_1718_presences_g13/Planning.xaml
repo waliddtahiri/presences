@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <DockPanel>
+        <DockPanel HorizontalAlignment="Center">
         <Button x:Name="Left" Content="&lt;&lt;" Command="{Binding PreviousWeek}"
          HorizontalAlignment="Left" VerticalAlignment="Center" Width="28" Padding="5,1"/>
             <DatePicker Name="Datum" SelectedDate="{Binding Date}" VerticalAlignment="Center"/>
@@ -30,13 +30,22 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
-                        <TextBlock FontSize="11"  Width="50"  Text="{Binding Path=Course.DayOfWeek}" />
-                        <TextBlock FontSize="11"  Width="100"  Text="-------->" />
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <DockPanel HorizontalAlignment="Left">
+                            <TextBlock FontSize="11"  Width="auto"   Text="{Binding Path=Course.JourSemaine}" />
+                            </DockPanel>
+                            <DockPanel Grid.Row="1" Background="Aquamarine">    
                         <TextBlock FontSize="11"  Width="50"  Text="{Binding Path=Course.StartTime}" />
                         <TextBlock FontSize="11"  Width="10"  Text="-" />
                         <TextBlock FontSize="11"  Width="50"  Text="{Binding Path=Course.EndTime}" />
                         <TextBlock FontSize="11"  Width="10"  Text=":" />
-                        <TextBlock FontSize="11"  Width="500"  Text="{Binding Path=Course.Title}" />
+                        <TextBlock FontSize="11"  Width="auto"  Text="{Binding Path=Course.Title}" />
+                            </DockPanel>
+                        </Grid>
                     </DockPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
