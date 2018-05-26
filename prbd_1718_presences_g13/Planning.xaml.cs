@@ -26,6 +26,7 @@ namespace prbd_1718_presences_g13
 
         public ObservableCollection<Course> Courses { get; private set; }
         public ObservableCollection<Presence> Presences { get; private set; }
+        public ObservableCollection<Presence> PresencesStudents { get; private set; }
         public ObservableCollection<CourseOccurrence> CoursesOccurrence { get; private set; }
         public ObservableCollection<CourseOccurrence> CourseOccurrence { get; private set; }
         public ObservableCollection<User> Users { get; private set; }
@@ -52,17 +53,20 @@ namespace prbd_1718_presences_g13
             PreviousWeek = new RelayCommand(() => { Datum.SelectedDate = Date.AddDays(-7); CourseOccurrence.RefreshFromModel(s); });
             NextWeek = new RelayCommand(() => { Datum.SelectedDate = Date.AddDays(+7); CourseOccurrence.RefreshFromModel(s); });
             Presences = new ObservableCollection<Presence>(App.Model.presence);
+            
             DisplayEncodage = 
-            new RelayCommand<CourseOccurrence> (c => { 
-                foreach (Student st in c.Course.Student)
-                { 
-                    Presence p = new Presence(st.Id, c.Id);
-                    if (!Presences.Contains(p))
-                    {
-                        App.Model.presence.Add(p);
-                    }
-                }
+            new RelayCommand<CourseOccurrence> (c => {
 
+                foreach (Student st in c.Course.Student)
+                {
+                    if (c.Presence.Count<c.Course.Student.Count)
+                    {
+                        Presences.Add(new Presence(st.Id, c.Id));
+                    }
+
+                    App.Model.presence.AddRange(Presences);
+                }
+                
                 App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, c);
             });
 

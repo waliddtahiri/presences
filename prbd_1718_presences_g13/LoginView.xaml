@@ -20,9 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label x:Name="label" Content="{x:Static p:Resources.LoginView_Pseudo}" VerticalAlignment="Center" Padding="5" />
         <f:ValidatedField Grid.Column="1" VerticalAlignment="Center">
@@ -43,13 +41,6 @@
             <Button x:Name="btnLogin" Content="{x:Static p:Resources.LoginView_Login}" 
                     HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" IsDefault="True" Margin="10,0,0,0" 
                     Command="{Binding Login}"/>
-        </DockPanel>
-        <DockPanel Grid.Row="3" Grid.ColumnSpan="2">
-            <TextBlock Height="auto" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" Width="220" >
-                <Run Text="{x:Static p:Resources.LoginView_Message_1}"/>
-                <Hyperlink Command="{Binding SignUp}"><Run Text="{x:Static p:Resources.LoginView_Message_2}"/></Hyperlink>
-                <Run Text="{x:Static p:Resources.LoginView_Message_3}"/>
-            </TextBlock>
         </DockPanel>
     </Grid>
 </f:WindowBase>

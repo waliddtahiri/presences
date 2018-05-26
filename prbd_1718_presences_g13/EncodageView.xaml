@@ -13,13 +13,26 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="77"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                        <DockPanel>
                         <TextBlock Text="{Binding Path=Students.LastName}"/>
                         <TextBlock Text=", "/>
                         <TextBlock Text="{Binding Path=Students.FirstName}"/>
                         <TextBlock Text=": "/>
+                        </DockPanel>
+                        <DockPanel Grid.Column="1">
                         <RadioButton  Content="Présent" IsChecked="{Binding Path=IsPresent}"/>
-                        <RadioButton  Content="Absent" IsChecked="{Binding Path=IsAbsent}"/>
-                    </DockPanel>
+                        </DockPanel>
+                            <DockPanel Grid.Column="2">
+                                <RadioButton  Content="Absent" IsChecked="{Binding Path=IsAbsent}"/>
+                        </DockPanel>
+                            </Grid>
+                            </DockPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

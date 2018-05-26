@@ -18,6 +18,8 @@ namespace prbd_1718_presences_g13
         public const string MSG_DISPLAY_ENCODAGE = "MSG_DISPLAY_ENCODAGE";
         public const string MSG_NEW_COURSE = "MSG_NEW_COURSE";
         public const string MSG_PRESENCE_CHANGED = "MSG_PRESENCE_CHANGED";
+        public const string MSG_COURSE_CHANGED = "MSG_COURSE_CHANGED";
+        public const string MSG_STUDENT_CHANGED = "MSG_STUDENT_CHANGED";
 
 
         public static Entities Model { get; private set; } = new Entities();
@@ -59,6 +61,13 @@ namespace prbd_1718_presences_g13
         private void ColdStart()
         {
             Model.user.Find(1);
+        }
+
+        public static void CancelChanges()
+        {
+            Model.Dispose(); // Retire de la mémoire le modèle actuel
+            Model = new Entities(); // Recréation d'un nouveau modèle à partir de la DB
+            Model.Database.Log = m => Console.Write(m);
         }
 
 

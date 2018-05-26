@@ -6,18 +6,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:prbd_1718_presences_g13"
         xmlns:f="clr-namespace:PRBD_Framework;assembly=PRBD_Framework"
+        xmlns:p="clr-namespace:prbd_1718_presences_g13.Properties"
         mc:Ignorable="d"
         Title="MainView" Height="500" Width="900">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="{x:Static p:Resources.Menu_File}">
+                <MenuItem Header="{x:Static p:Resources.Menu_File_Save}" Command="{Binding SaveChanges}" CommandParameter="CoursesFormView" />
+                <MenuItem Header="{x:Static p:Resources.Menu_File_Cancel}" Command="{Binding CancelChanges}"  />
+            </MenuItem>
+        </Menu>
     <TabControl x:Name="tabControl" Margin="10" Grid.Row="1">
         <TabItem x:Name="coursesTab" Header="Courses">
             <ContentControl>
                 <local:CoursesView/>
             </ContentControl>
         </TabItem>
-        <TabItem  Header="Planning">
+        <TabItem IsEnabled="{Binding Teacher}"  Header="Planning">
             <ContentControl>
                 <local:Planning/>
             </ContentControl>
         </TabItem>
     </TabControl>
+        </Grid>
 </f:WindowBase>

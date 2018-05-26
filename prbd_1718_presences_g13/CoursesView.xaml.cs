@@ -67,12 +67,15 @@ namespace prbd_1718_presences_g13
 
             DisplayCoursesDetails = new RelayCommand<Course>(c => { App.Messenger.NotifyColleagues(App.MSG_DISPLAY_COURSE, c); });
 
+            App.Messenger.Register<Course>(App.MSG_COURSE_CHANGED, Course => { ApplyFilterAction(); });
+
+            Courses = new ObservableCollection<Course>(App.Model.course);
+
+            Users = new ObservableCollection<User>(App.Model.user);
+
+            NewCourse = new RelayCommand(() => { App.Messenger.NotifyColleagues(App.MSG_NEW_COURSE); Filter = ""; });
+
             
-                Courses = new ObservableCollection<Course>(App.Model.course);
-
-                Users = new ObservableCollection<User>(App.Model.user);
-
-                NewCourse = new RelayCommand(() => { App.Messenger.NotifyColleagues(App.MSG_NEW_COURSE); Filter = ""; });
 
             if (App.CurrentUser.Role == "admin")
             {
@@ -105,7 +108,14 @@ namespace prbd_1718_presences_g13
             {
                 Courses = new ObservableCollection<Course>(App.CurrentUser.Course);
                 prof.SelectedItem = App.CurrentUser;
-                prof.IsEnabled = false;
+            }
+        }
+
+        public bool Admin
+        {
+            get
+            {
+                return App.CurrentUser.Role == "admin";
             }
         }
 
@@ -168,7 +178,7 @@ namespace prbd_1718_presences_g13
                     Courses = new ObservableCollection<Course>(filtered);
                 }
 
-                if (StartDate.SelectedDate != null && FinishDate.SelectedDate != null && StartDate.SelectedDate <= FinishDate.SelectedDate)
+                else if (StartDate.SelectedDate != null && FinishDate.SelectedDate != null && StartDate.SelectedDate <= FinishDate.SelectedDate)
                 {
                     var filteredd = from c in Courses
                                     where
@@ -177,9 +187,11 @@ namespace prbd_1718_presences_g13
 
                     Courses = new ObservableCollection<Course>(filteredd);
                 }
+
+                else
+                    Courses = new ObservableCollection<Course>(App.Model.course);
             }
-            else
-                Courses = new ObservableCollection<Course>(App.Model.course);
+            
         }
 
 

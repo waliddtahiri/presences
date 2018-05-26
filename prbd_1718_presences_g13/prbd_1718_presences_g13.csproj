@@ -76,6 +76,7 @@
     <Compile Include="Course.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Course.ext.cs" />
     <Compile Include="CourseOccurrence.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

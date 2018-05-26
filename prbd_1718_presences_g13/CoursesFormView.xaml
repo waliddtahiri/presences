@@ -31,32 +31,32 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Code :" VerticalAlignment="Center"/>
-            <TextBox Name="code"  Grid.Column="1"  Text="{Binding Code}" VerticalAlignment="Center" Margin="0,0,-73,0" />
+            <TextBox Name="code"  Grid.Column="1" IsEnabled="{Binding IsNew}"  Text="{Binding Code}" VerticalAlignment="Center" Margin="0,0,-73,0" />
             <Label Content="Title:" Grid.Row="1" VerticalAlignment="Center"/>
             <f:ValidatedField Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" >
-                <TextBox Name="titre" Grid.Row="1" Grid.Column="1" Text="{Binding Title}" VerticalAlignment="Center" Margin="0,0,-73,0" />
+                <TextBox Name="titre" IsEnabled="{Binding Admin}" Grid.Row="1" Grid.Column="1" Text="{Binding Title}" VerticalAlignment="Center" Margin="0,0,-73,0" />
             </f:ValidatedField>
-            <Label Content="Teacher:" Grid.Row="2" VerticalAlignment="Center"/>
-            <ComboBox Name="prof" SelectedItem="{Binding Teacher}"  DisplayMemberPath="FullName" ItemsSource="{Binding Users}"  Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  />
+            <Label  Content="Teacher:" Grid.Row="2" VerticalAlignment="Center"/>
+            <ComboBox Name="prof" IsEnabled="{Binding Admin}" SelectedItem="{Binding Teacher}"  DisplayMemberPath="FullName" ItemsSource="{Binding Users}"  Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  />
             <Label Content="Day Of Week :" Grid.Row="3" VerticalAlignment="Center" />
-            <ComboBox Name="dayofweek" Grid.Row="3" SelectedValue="{Binding DaysOfWeek}" DisplayMemberPath="DayOfWeek" ItemsSource="{Binding Courses}" VerticalAlignment="Center" Margin="0,1,0,2" Grid.Column="1" />
+            <ComboBox Name="dayofweek" IsEnabled="{Binding Admin}" Grid.Row="3" SelectedValue="{Binding JourSemaine}" ItemsSource="{Binding Courses}"  VerticalAlignment="Center" Margin="0,1,0,2" Grid.Column="1" />
             <Label Content="Dates :" Grid.Row="4" VerticalAlignment="Center"/>
             <Label Content="Début:" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" />
             <f:ValidatedField Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="50,0,0,0">
-                <DatePicker Name="Sdate"  Grid.Column="1" Grid.Row="4" SelectedDate="{Binding StartDate}" VerticalAlignment="Center"  />
+                <DatePicker Name="Sdate" IsEnabled="{Binding Admin}" Grid.Column="1" Grid.Row="4" SelectedDate="{Binding StartDate}" VerticalAlignment="Center"  />
             </f:ValidatedField>
             <Label Content="Fin:" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" />
             <f:ValidatedField Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,15,0">
-                <DatePicker Name="Fdate"  Grid.Column="2" Grid.Row="4" SelectedDate="{Binding FinishDate}" VerticalAlignment="Center"  />
+                <DatePicker Name="Fdate" IsEnabled="{Binding Admin}" Grid.Column="2" Grid.Row="4" SelectedDate="{Binding FinishDate}" VerticalAlignment="Center"  />
             </f:ValidatedField>
             <Label Content="Heures :" Grid.Row="5" VerticalAlignment="Center" />
             <Label Content="Début:" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" />
             <f:ValidatedField Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Margin="50,0,0,0" >
-                <TextBox Name="Stime"  Grid.Column="1" Grid.Row="5" Text="{Binding StartTime}" VerticalAlignment="Center"  />
+                <TextBox Name="Stime" IsEnabled="{Binding Admin}" Grid.Column="1" Grid.Row="5" Text="{Binding StartTime}" VerticalAlignment="Center"  />
             </f:ValidatedField>
             <Label Content="Fin:" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" />
             <f:ValidatedField Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,15,0">
-                <TextBox Name="Etime"  Grid.Column="2" Grid.Row="5" Text="{Binding EndTime}" VerticalAlignment="Center"   />
+                <TextBox Name="Etime" IsEnabled="{Binding Admin}" Grid.Column="2" Grid.Row="5" Text="{Binding EndTime}" VerticalAlignment="Center"   />
             </f:ValidatedField>
         </Grid>
 
@@ -74,7 +74,7 @@
                             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Margin="0,15,0,15" VerticalAlignment="Top" Height="21" FontWeight="Bold" DockPanel.Dock="Top">
                             <Run Text="Etudiants non inscrits à ce cours"/>
                             </TextBlock>
-                            <DataGrid  Grid.Row="6" FontSize="10" ItemsSource="{Binding NonStudents}"  AutoGenerateColumns="False" >
+                            <DataGrid Name="NpGrid"  Grid.Row="6" FontSize="10" ItemsSource="{Binding NonStudents}"  AutoGenerateColumns="False" SelectedItem="SelectedStudent" >
                                 <DataGrid.Columns>
                                     <DataGridTextColumn  IsReadOnly="True" Header = "Id" Binding="{Binding Path=Id}" Width="20" />
                                     <DataGridTextColumn  IsReadOnly="True" Header = "Nom" Binding="{Binding Path=LastName}" Width="40" />
@@ -84,13 +84,13 @@
                             </DataGrid>
                         </DockPanel>
                         <StackPanel Grid.Column="1" Margin="0,74,0,21">
-                            <Button x:Name="Right" Content=">>" Command="{Binding }" 
+                            <Button x:Name="Right" Content=">>" Command="{Binding DesToIns}" IsEnabled="{Binding Admin}"
                                     HorizontalAlignment="Left" Margin="5,10,5,-7" VerticalAlignment="Top" Width="28" Padding="5,1" />
-                            <Button x:Name="Rignt1" Content=">" Command="{Binding }" 
+                            <Button x:Name="Rignt1" Content=">" Command="{Binding }" IsEnabled="{Binding Admin}"
                                     HorizontalAlignment="Left" Margin="5,10,5,-7" Grid.Row="3" VerticalAlignment="Top" Width="28" Padding="5,1"/>
-                            <Button x:Name="Left" Content="&lt;" Command="{Binding }" 
+                            <Button x:Name="Left" Content="&lt;" Command="{Binding }" IsEnabled="{Binding Admin}"
                                     HorizontalAlignment="Left" Margin="5,10,0,-7" Grid.Row="3" VerticalAlignment="Top" Width="28" Padding="5,1"/>
-                            <Button x:Name="Left1" Content="&lt;&lt;" Command="{Binding }"
+                            <Button x:Name="Left1" Content="&lt;&lt;" Command="{Binding InsToDes}" IsEnabled="{Binding Admin}"
                                     HorizontalAlignment="Left" Margin="5,10,5,-7" Grid.Row="3" VerticalAlignment="Top" Width="28" Padding="5,1"/>
                         </StackPanel>
                         <DockPanel Grid.Column="2" Margin="25,0,0,0">

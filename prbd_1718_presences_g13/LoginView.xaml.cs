@@ -54,22 +54,15 @@ namespace prbd_1718_presences_g13
             }
             if (Pseudo != null)
             {
-                if (Pseudo.Length < 3)
-                    AddError("Pseudo", Properties.Resources.Error_LengthGreaterEqual3);
-                else
-                {
-                    if (user == null)
-                        AddError("Pseudo", Properties.Resources.Error_DoesNotExist);
-                }
+                if (user == null)
+                    AddError("Pseudo", Properties.Resources.Error_DoesNotExist);
             }
 
             if (string.IsNullOrEmpty(Password))
                 AddError("Password", Properties.Resources.Error_Required);
             if (Password != null)
             {
-                if (Password.Length < 3)
-                    AddError("Password", Properties.Resources.Error_LengthGreaterEqual3);
-                else if (user != null && user.Password != Password)
+                if (user != null && user.Password != Password)
                     AddError("Password", Properties.Resources.Error_WrongPassword);
             }
 

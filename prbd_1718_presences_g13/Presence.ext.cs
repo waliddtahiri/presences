@@ -39,5 +39,11 @@ namespace prbd_1718_presences_g13
             get { return Present == 0; }
             set { Present = (byte)(value ? 0 : 1); }
         }
+
+        public Boolean Equals(Presence P)
+        {
+            return this.Student==P.Student && this.CourseOccurence == P.CourseOccurence;  
+            
+        }
     }
 }

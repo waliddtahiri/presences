@@ -35,11 +35,11 @@
         <Label Content="Fin:" Grid.Row="1" Grid.Column="2" />
         <DatePicker Name="FinishDate" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Margin="30,0,70,0"  />
         <Label Content="Professeur :" Grid.Row="2" />
-        <ComboBox Name="prof"   DisplayMemberPath="FullName" ItemsSource="{Binding Users}"  Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  />
+        <ComboBox Name="prof" IsEnabled="{Binding Admin}"  DisplayMemberPath="FullName" ItemsSource="{Binding Users}"  Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  />
         <Label Content="Has Inscriptions :" Grid.Row="3" />
         <CheckBox  Grid.Column="1" Grid.Row="3" VerticalAlignment="Center"  />
         <Button Content="Clear All" Grid.Row="4" Grid.Column="1" Command="{Binding ClearFilter}" Margin="0,0,100,0" />
-        <DataGrid x:Name="dataGrid" Grid.Row="6" FontSize="10" ItemsSource="{Binding Courses}" SelectedItem="{Binding SelectedCourse}" AutoGenerateColumns="False" Margin="0,2,0,0" Grid.ColumnSpan="4" >
+        <DataGrid x:Name="dataGrid" Grid.Row="6" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" FontSize="10" ItemsSource="{Binding Courses}" SelectedItem="{Binding SelectedCourse}" AutoGenerateColumns="False" Margin="0,2,0,0" Grid.ColumnSpan="4" >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding DisplayCoursesDetails}"
@@ -47,7 +47,6 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <DataGrid.Columns>
-
                 <DataGridTextColumn  IsReadOnly="True" Header = "Code" Binding="{Binding Path=Code}" Width="35" />
                 <DataGridTextColumn  IsReadOnly="True" Header = "Title" Binding="{Binding Path=Title}" Width="250" />
                 <DataGridTextColumn  IsReadOnly="True" Header = "Start Date" Binding="{Binding Path=StartDate, StringFormat=\{0:dd-MM-yyyy\}}" Width="70" />
@@ -62,7 +61,7 @@
         </DataGrid>
         <Grid Grid.Row="8" Grid.Column="3">
             <Button x:Name="button" Content="Nouveau cours" Margin="0,0,10,10" VerticalAlignment="Bottom" RenderTransformOrigin="1.822,-0.32"
-                Command="{Binding NewCourse}" HorizontalAlignment="Right" Width="95" Height="24"/>
+                Command="{Binding NewCourse}" IsEnabled="{Binding Admin}" HorizontalAlignment="Right" Width="95" Height="24"/>
         </Grid>
     </Grid>
 </f:UserControlBase>

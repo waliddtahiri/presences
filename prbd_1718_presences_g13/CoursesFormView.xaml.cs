@@ -59,6 +59,8 @@ namespace prbd_1718_presences_g13
         }
 
         public ICommand DisplayEncodage { get; set; }
+        public ICommand DesToIns { get; set; }
+        public ICommand InsToDes { get; set; }
 
         public CoursesFormView(Course course, bool isNew)
         {
@@ -78,10 +80,30 @@ namespace prbd_1718_presences_g13
 
             DisplayEncodage = new RelayCommand<CourseOccurrence>(c => { App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, c); });
 
+            DesToIns = new RelayCommand(() => { if (NonStudents.Count != 0) {
+                    Course.Student.Add(NonStudents.First());
+                    NonStudents.Remove(NonStudents.First());
+                    Students.RefreshFromModel(Course.Student);
+                }
+            });
+
+
+            InsToDes = new RelayCommand(() => { if (Students.Count != 0) {
+                    Course.Student.Remove(Course.Student.First());
+                    Students.Remove(Students.First()); }
+                    Students.RefreshFromModel(Course.Student);
+                    NonStudents.RefreshFromModel(AllStudents.Except(Students));
+            });
+
             InitializeComponent();
 
-            Professor();
+            Students.RefreshFromModel(Course.Student);
 
+            HistoriquePrésences();
+        }
+
+        private void HistoriquePrésences()
+        {
             var table = new DataTable();
             var columns = new Dictionary<int, CourseOccurrence>();
             table = new DataTable();
@@ -96,7 +118,7 @@ namespace prbd_1718_presences_g13
             foreach (Student s in Students)
             {
                 var row = table.NewRow();
-                row[0] = s.LastName + ", " + s.FirstName; 
+                row[0] = s.LastName + ", " + s.FirstName;
                 for (int j = 1; j < table.Columns.Count; ++j)
                 {
                     CourseOccurrence idL = columns[j];
@@ -116,18 +138,12 @@ namespace prbd_1718_presences_g13
             Presence = table.DefaultView;
         }
 
-        private void Professor()
+
+        public bool Admin
         {
-            if(App.CurrentUser.Role == "teacher")
+            get
             {
-                code.IsEnabled = false;
-                titre.IsEnabled = false;
-                prof.IsEnabled = false;
-                dayofweek.IsEnabled = false;
-                Sdate.IsEnabled = false;
-                Fdate.IsEnabled = false;
-                Stime.IsEnabled = false;
-                Etime.IsEnabled = false;
+                return App.CurrentUser.Role == "admin";
             }
         }
 
@@ -149,6 +165,7 @@ namespace prbd_1718_presences_g13
                 Course.Title = value;
                 Valid();
                 RaisePropertyChanged(nameof(Title));
+                App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
             }
         }
 
@@ -159,6 +176,7 @@ namespace prbd_1718_presences_g13
             {
                 Course.DayOfWeek = value;
                 RaisePropertyChanged(nameof(DaysOfWeek));
+                App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
             }
         }
 
@@ -171,6 +189,7 @@ namespace prbd_1718_presences_g13
                 Course.User = value;
                 Valid();
                 RaisePropertyChanged(nameof(Teacher));
+                App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
             }
         }
 
@@ -182,6 +201,7 @@ namespace prbd_1718_presences_g13
                 Course.StartDate = value;
                 RaisePropertyChanged(nameof(StartDate));
                 Valid();
+                App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
             }
         }
 
@@ -193,6 +213,7 @@ namespace prbd_1718_presences_g13
                 Course.FinishDate = value;
                 RaisePropertyChanged(nameof(FinishDate));
                 Valid();
+                App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
             }
         }
 
@@ -204,6 +225,7 @@ namespace prbd_1718_presences_g13
                 Course.StartTime = value;
                 RaisePropertyChanged(nameof(StartTime));
                 Valid();
+                App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
             }
         }
 
@@ -215,13 +237,12 @@ namespace prbd_1718_presences_g13
                 Course.EndTime = value;
                 RaisePropertyChanged(nameof(EndTime));
                 Valid();
+                App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
             }
         }
 
         private bool Valid()
         {
-            if (isNew)
-            {
                 ClearErrors();
 
                 if (string.IsNullOrEmpty(Title))
@@ -242,9 +263,7 @@ namespace prbd_1718_presences_g13
                     AddError("StartTime", Properties.Resources.Error_StartTime);
                     AddError("EndTime", Properties.Resources.Error_EndTime);
                 }
-
-            }
-            
+        
             RaiseErrors();
 
             return true;
@@ -274,6 +293,19 @@ namespace prbd_1718_presences_g13
             set
             {
                 selectedCourseOccurrence = value;
+            }
+        }
+
+        public Student selectedStudent;
+        public Student SelectedStudent
+        {
+            get
+            {
+                return selectedStudent;
+            }
+            set
+            {
+                selectedStudent = value;
             }
         }
     }

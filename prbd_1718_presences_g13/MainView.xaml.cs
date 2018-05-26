@@ -23,12 +23,24 @@ namespace prbd_1718_presences_g13
     {
 
         public ICommand Display { get; set; }
+        public ICommand SaveChanges { get; set; }
+        public ICommand CancelChanges { get; set; }
 
+        public bool Teacher
+        {
+            get
+            {
+                return App.CurrentUser.Role == "teacher";
+            }
+        }
 
         public MainView()
         {
 
             DataContext = this;
+
+            SaveChanges = new RelayCommand(() => { App.Model.SaveChanges(); });
+            CancelChanges = new RelayCommand(() => { App.CancelChanges(); });
 
             InitializeComponent();
 
@@ -109,6 +121,8 @@ namespace prbd_1718_presences_g13
                 };
                 tabControl.Items.Add(tab);
                 Dispatcher.InvokeAsync(() => tab.Focus());
+
+                
 
             }
 

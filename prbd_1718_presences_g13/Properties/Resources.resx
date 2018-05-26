@@ -126,15 +126,6 @@
   <data name="Error_FinishDate" xml:space="preserve">
     <value>Doit être &gt;= date de début</value>
   </data>
-  <data name="Error_LengthGreaterEqual3" xml:space="preserve">
-    <value>length must be &gt;= 3</value>
-  </data>
-  <data name="Error_MustMatchConfirmPassword" xml:space="preserve">
-    <value>must match confirm password</value>
-  </data>
-  <data name="Error_MustMatchPassword" xml:space="preserve">
-    <value>must match password</value>
-  </data>
   <data name="Error_NotAvailable" xml:space="preserve">
     <value>not available</value>
   </data>
@@ -159,15 +150,6 @@
   <data name="LoginView_Login" xml:space="preserve">
     <value>Login</value>
   </data>
-  <data name="LoginView_Message_1" xml:space="preserve">
-    <value>If your don't have a login and a password, click</value>
-  </data>
-  <data name="LoginView_Message_2" xml:space="preserve">
-    <value>here</value>
-  </data>
-  <data name="LoginView_Message_3" xml:space="preserve">
-    <value>to sign-up.</value>
-  </data>
   <data name="LoginView_Password" xml:space="preserve">
     <value>Password:</value>
   </data>
@@ -176,5 +158,14 @@
   </data>
   <data name="LoginView_Title" xml:space="preserve">
     <value>Login</value>
+  </data>
+  <data name="Menu_File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Menu_File_Cancel" xml:space="preserve">
+    <value>Cancel Changes</value>
+  </data>
+  <data name="Menu_File_Save" xml:space="preserve">
+    <value>Save Changes</value>
   </data>
 </root>

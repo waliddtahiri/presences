@@ -88,33 +88,6 @@ namespace prbd_1718_presences_g13.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à length must be &gt;= 3.
-        /// </summary>
-        public static string Error_LengthGreaterEqual3 {
-            get {
-                return ResourceManager.GetString("Error_LengthGreaterEqual3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à must match confirm password.
-        /// </summary>
-        public static string Error_MustMatchConfirmPassword {
-            get {
-                return ResourceManager.GetString("Error_MustMatchConfirmPassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à must match password.
-        /// </summary>
-        public static string Error_MustMatchPassword {
-            get {
-                return ResourceManager.GetString("Error_MustMatchPassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une chaîne localisée semblable à not available.
         /// </summary>
         public static string Error_NotAvailable {
@@ -187,33 +160,6 @@ namespace prbd_1718_presences_g13.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à If your don&apos;t have a login and a password, click.
-        /// </summary>
-        public static string LoginView_Message_1 {
-            get {
-                return ResourceManager.GetString("LoginView_Message_1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à here.
-        /// </summary>
-        public static string LoginView_Message_2 {
-            get {
-                return ResourceManager.GetString("LoginView_Message_2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à to sign-up..
-        /// </summary>
-        public static string LoginView_Message_3 {
-            get {
-                return ResourceManager.GetString("LoginView_Message_3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une chaîne localisée semblable à Password:.
         /// </summary>
         public static string LoginView_Password {
@@ -237,6 +183,33 @@ namespace prbd_1718_presences_g13.Properties {
         public static string LoginView_Title {
             get {
                 return ResourceManager.GetString("LoginView_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à File.
+        /// </summary>
+        public static string Menu_File {
+            get {
+                return ResourceManager.GetString("Menu_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Cancel Changes.
+        /// </summary>
+        public static string Menu_File_Cancel {
+            get {
+                return ResourceManager.GetString("Menu_File_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Save Changes.
+        /// </summary>
+        public static string Menu_File_Save {
+            get {
+                return ResourceManager.GetString("Menu_File_Save", resourceCulture);
             }
         }
     }
