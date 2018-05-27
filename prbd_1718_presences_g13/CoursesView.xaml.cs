@@ -77,9 +77,9 @@ namespace prbd_1718_presences_g13
 
             Users = new ObservableCollection<User>(App.Model.user);
 
-            NewCourse = new RelayCommand(() => { App.Messenger.NotifyColleagues(App.MSG_NEW_COURSE); Filter = ""; });
+            NewCourse = new RelayCommand(() => { App.Messenger.NotifyColleagues(App.MSG_NEW_COURSE); });
 
-            
+
 
             if (App.CurrentUser.Role == "admin")
             {
@@ -108,7 +108,7 @@ namespace prbd_1718_presences_g13
 
         private void Teacher()
         {
-            if(App.CurrentUser.Role == "teacher")
+            if (App.CurrentUser.Role == "teacher")
             {
                 Courses = new ObservableCollection<Course>(App.CurrentUser.Course);
                 prof.SelectedItem = App.CurrentUser;
@@ -169,6 +169,15 @@ namespace prbd_1718_presences_g13
 
                     Courses = new ObservableCollection<Course>(filteredd);
                 }
+                if (Inscrit)
+                {
+                    var filter = from c in Courses
+                                 where c.Student.Count > 0
+                                 select c;
+
+                    Courses = new ObservableCollection<Course>(filter);
+
+                }
             }
             else if (string.IsNullOrEmpty(Filter))
             {
@@ -192,10 +201,20 @@ namespace prbd_1718_presences_g13
                     Courses = new ObservableCollection<Course>(filteredd);
                 }
 
+                else if (Inscrit)
+                {
+                    var filter = from c in Courses
+                                 where c.Student.Count > 0
+                                 select c;
+
+                    Courses = new ObservableCollection<Course>(filter);
+
+                }
+
                 else
                     Courses = new ObservableCollection<Course>(App.Model.course);
             }
-            
+
         }
 
 
@@ -210,5 +229,20 @@ namespace prbd_1718_presences_g13
             }
         }
 
+        public bool inscrit;
+        public bool Inscrit
+        {
+            get
+            {
+                return inscrit;
+            }
+
+            set
+            {
+                inscrit = value;
+                ApplyFilterAction();
+            }
+
+        }
     }
 }

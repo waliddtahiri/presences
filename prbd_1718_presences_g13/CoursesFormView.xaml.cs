@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,6 +62,7 @@ namespace prbd_1718_presences_g13
         public ICommand DisplayEncodage { get; set; }
         public ICommand DesToIns { get; set; }
         public ICommand InsToDes { get; set; }
+        public ICommand Delete { get; set; }
 
         public CoursesFormView(Course course, bool isNew)
         {
@@ -81,12 +83,7 @@ namespace prbd_1718_presences_g13
 
             App.Messenger.Register<Course>(App.MSG_CANCEL, Course => { CancelChanges(); });
 
-            App.Messenger.Register<Course>(App.MSG_SAVE, Course => { if (Valid() && !HasErrors) {
-                    App.Model.SaveChanges();
-                }
-                else {
-                    App.Messenger.NotifyColleagues(App.MSG_CANCEL, Course); }
-                    });
+            App.Messenger.Register<Course>(App.MSG_SAVE, Course => { SaveChanges(); });
 
             DisplayEncodage = new RelayCommand<CourseOccurrence>(c => { App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, c); });
 
@@ -107,7 +104,7 @@ namespace prbd_1718_presences_g13
                     App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
             });
 
-
+            Delete = new RelayCommand(DeleteAction, () => { return !IsNew; });
 
             InitializeComponent();
 
@@ -164,11 +161,13 @@ namespace prbd_1718_presences_g13
 
         public int Code
         {
-            get { return Course.Code; }
+            get {
+                 return Course.Code; }
             set
             {
                 Course.Code = value;
                 RaisePropertyChanged(nameof(Code));
+                App.Messenger.NotifyColleagues(App.MSG_CODE_CHANGED, string.IsNullOrEmpty(value.ToString()) ? "<New Course>" : "Course " + value);
             }
         }
 
@@ -210,7 +209,9 @@ namespace prbd_1718_presences_g13
 
         public DateTime StartDate
         {
-            get { return Course.StartDate; }
+            get { if (IsNew)
+                    return DateTime.Now;
+                  return Course.StartDate; }
             set
             {
                 Course.StartDate = value;
@@ -222,7 +223,10 @@ namespace prbd_1718_presences_g13
 
         public DateTime FinishDate
         {
-            get { return Course.FinishDate; }
+            get {
+                 if (IsNew)
+                    return DateTime.Now;
+                 return Course.FinishDate; }
             set
             {
                 Course.FinishDate = value;
@@ -260,6 +264,10 @@ namespace prbd_1718_presences_g13
         {
                 ClearErrors();
 
+                if (IsNew && Courses.Any(c => Code == c.Code))
+                {
+                     AddError("Code", Properties.Resources.Error_Required);
+                }
                 if (string.IsNullOrEmpty(Title))
                 {
                     AddError("Title", Properties.Resources.Error_RequiredTitle);
@@ -324,6 +332,25 @@ namespace prbd_1718_presences_g13
             }
         }
 
+        private void SaveChanges()
+        {
+            if (IsNew && Valid() && !HasErrors)
+            {
+                App.Model.course.Add(Course);
+                IsNew = false;
+            }
+            else if (Valid() && !HasErrors)
+            {
+                App.Model.SaveChanges();
+            }
+            else
+            {
+                App.Messenger.NotifyColleagues(App.MSG_CANCEL, Course);
+            }
+            App.Model.SaveChanges();
+            App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
+        }
+
         public void CancelChanges()
         {
             App.CancelChanges();
@@ -342,6 +369,18 @@ namespace prbd_1718_presences_g13
             Presences = new ObservableCollection<Presence>(App.Model.presence);
             NonStudents = new ObservableCollection<Student>(App.Model.student);
             Day = new ObservableCollection<String>(Course.Day);
+        }
+
+        private void DeleteAction()
+        {
+            var courseToDelete = App.Model.course.Where(c => c.Code == Course.Code)
+            .Include("CourseOccurrence.Presence")
+            .Include("Student")
+            .SingleOrDefault();
+            App.Model.course.Remove(courseToDelete);
+            App.Model.SaveChanges();
+            App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
+            App.Messenger.NotifyColleagues(App.MSG_CLOSE_TAB, Parent);
         }
     }
 }

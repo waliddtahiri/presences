@@ -37,7 +37,7 @@
         <Label Content="Professeur :" Grid.Row="2" />
         <ComboBox Name="prof" IsEnabled="{Binding Admin}"  DisplayMemberPath="FullName" ItemsSource="{Binding Users}"  Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  />
         <Label Content="Has Inscriptions :" Grid.Row="3" />
-        <CheckBox  Grid.Column="1" Grid.Row="3" VerticalAlignment="Center"  />
+        <CheckBox IsChecked="{Binding Inscrit}" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center"  />
         <Button Content="Clear All" Grid.Row="4" Grid.Column="1" Command="{Binding ClearFilter}" Margin="0,0,100,0" />
         <DataGrid x:Name="dataGrid" Grid.Row="6" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" FontSize="10" ItemsSource="{Binding Courses}" SelectedItem="{Binding SelectedCourse}" AutoGenerateColumns="False" Margin="0,2,0,0" Grid.ColumnSpan="4" >
             <i:Interaction.Triggers>

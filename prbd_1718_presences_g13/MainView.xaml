@@ -8,7 +8,7 @@
         xmlns:f="clr-namespace:PRBD_Framework;assembly=PRBD_Framework"
         xmlns:p="clr-namespace:prbd_1718_presences_g13.Properties"
         mc:Ignorable="d"
-        Title="MainView" Height="500" Width="900">
+        Title="MainView" Height="550" Width="900">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

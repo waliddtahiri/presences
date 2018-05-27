@@ -44,6 +44,16 @@ namespace prbd_1718_presences_g13
 
             InitializeComponent();
 
+            App.Messenger.Register<TabItem>(App.MSG_CLOSE_TAB, tab =>
+            {
+                tabControl.Items.Remove(tab);
+            });
+
+            App.Messenger.Register<int>(App.MSG_CODE_CHANGED, (s) =>
+            {
+                (tabControl.SelectedItem as TabItem).Header = s;
+            });
+
             App.Messenger.Register<Course>(App.MSG_DISPLAY_COURSE, course =>
             {
                 if (course != null)
