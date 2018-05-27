@@ -39,8 +39,8 @@ namespace prbd_1718_presences_g13
 
             DataContext = this;
 
-            SaveChanges = new RelayCommand(() => { App.Model.SaveChanges(); });
-            CancelChanges = new RelayCommand(() => { App.CancelChanges(); });
+            SaveChanges = new RelayCommand<Course>(c => { App.Messenger.NotifyColleagues(App.MSG_SAVE, c); });
+            CancelChanges = new RelayCommand<Course>(c => {App.Messenger.NotifyColleagues(App.MSG_CANCEL, c); });
 
             InitializeComponent();
 
@@ -48,7 +48,7 @@ namespace prbd_1718_presences_g13
             {
                 if (course != null)
                 {
-                    var tab = (from TabItem t in tabControl.Items where (string)t.Header == "course " + course.Code select t).FirstOrDefault();
+                    var tab = (from TabItem t in tabControl.Items where (string)t.Header == "Course " + course.Code select t).FirstOrDefault();
                     if (tab == null)
                         newTabForCourse(course, false);
                     else

@@ -20,6 +20,8 @@ namespace prbd_1718_presences_g13
         public const string MSG_PRESENCE_CHANGED = "MSG_PRESENCE_CHANGED";
         public const string MSG_COURSE_CHANGED = "MSG_COURSE_CHANGED";
         public const string MSG_STUDENT_CHANGED = "MSG_STUDENT_CHANGED";
+        public const string MSG_CANCEL = "MSG_CANCEL";
+        public const string MSG_SAVE = "MSG_SAVE";
 
 
         public static Entities Model { get; private set; } = new Entities();

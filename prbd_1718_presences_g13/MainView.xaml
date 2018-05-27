@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <Menu>
             <MenuItem Header="{x:Static p:Resources.Menu_File}">
-                <MenuItem Header="{x:Static p:Resources.Menu_File_Save}" Command="{Binding SaveChanges}" CommandParameter="CoursesFormView" />
+                <MenuItem Header="{x:Static p:Resources.Menu_File_Save}" Command="{Binding SaveChanges}" />
                 <MenuItem Header="{x:Static p:Resources.Menu_File_Cancel}" Command="{Binding CancelChanges}"  />
             </MenuItem>
         </Menu>

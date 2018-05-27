@@ -42,9 +42,24 @@ namespace prbd_1718_presences_g13
             CoursesOccurrence = new ObservableCollection<CourseOccurrence>(App.Model.courseoccurrence);
             Presences = new ObservableCollection<Presence>(CourseOccurence.Presence);
 
+            App.Messenger.Register<Course>(App.MSG_SAVE, Course => {App.Model.SaveChanges(); });
+            App.Messenger.Register<Course>(App.MSG_CANCEL, c => { CancelChanges();});
+
 
             InitializeComponent();
 
+        }
+
+        public void CancelChanges()
+        {
+
+                var change = (from c in App.Model.ChangeTracker.Entries<CourseOccurrence>()
+                              where c.Entity == CourseOccurence.Presence
+                              select c).FirstOrDefault();
+                if (change != null)
+                {
+                    change.Reload();
+                }
         }
 
     }

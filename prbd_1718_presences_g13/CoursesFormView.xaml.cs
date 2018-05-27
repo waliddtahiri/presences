@@ -79,6 +79,15 @@ namespace prbd_1718_presences_g13
             NonStudents = new ObservableCollection<Student>(AllStudents.Except(Students));
             Day = new ObservableCollection<String>(Course.Day);
 
+            App.Messenger.Register<Course>(App.MSG_CANCEL, Course => { CancelChanges(); });
+
+            App.Messenger.Register<Course>(App.MSG_SAVE, Course => { if (Valid() && !HasErrors) {
+                    App.Model.SaveChanges();
+                }
+                else {
+                    App.Messenger.NotifyColleagues(App.MSG_CANCEL, Course); }
+                    });
+
             DisplayEncodage = new RelayCommand<CourseOccurrence>(c => { App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, c); });
 
             DesToIns = new RelayCommand(() => { if (NonStudents.Count != 0) {
@@ -98,7 +107,7 @@ namespace prbd_1718_presences_g13
                     App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
             });
 
-            
+
 
             InitializeComponent();
 
@@ -247,7 +256,7 @@ namespace prbd_1718_presences_g13
             }
         }
 
-        private bool Valid()
+        public bool Valid()
         {
                 ClearErrors();
 
@@ -313,6 +322,26 @@ namespace prbd_1718_presences_g13
             {
                 selectedStudent = value;
             }
+        }
+
+        public void CancelChanges()
+        {
+            App.CancelChanges();
+            RaisePropertyChanged(nameof(Title));
+            RaisePropertyChanged(nameof(DaysOfWeek));
+            RaisePropertyChanged(nameof(Teacher));
+            RaisePropertyChanged(nameof(StartDate));
+            RaisePropertyChanged(nameof(FinishDate));
+            RaisePropertyChanged(nameof(StartTime));
+            RaisePropertyChanged(nameof(EndTime));
+            Courses = new ObservableCollection<Course>(App.Model.course);
+            Users = new ObservableCollection<User>(App.Model.user);
+            AllStudents = new ObservableCollection<Student>(App.Model.student);
+            Students = new ObservableCollection<Student>(App.Model.student);
+            CoursesOccurrence = new ObservableCollection<CourseOccurrence>(App.Model.courseoccurrence);
+            Presences = new ObservableCollection<Presence>(App.Model.presence);
+            NonStudents = new ObservableCollection<Student>(App.Model.student);
+            Day = new ObservableCollection<String>(Course.Day);
         }
     }
 }
