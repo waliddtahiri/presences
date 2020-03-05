@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,17 @@ namespace prbd_1718_presences_g13
             }
         }
 
+        private bool CanSaveOrCancel
+        {
+            get
+            {
+                var change = (from c in App.Model.ChangeTracker.Entries<Course>()
+                              select c).FirstOrDefault();
+                return !HasErrors && change != null && change.State != EntityState.Unchanged;
+            }
+        }
+
+
         public MainView()
         {
 
@@ -49,7 +61,7 @@ namespace prbd_1718_presences_g13
                 tabControl.Items.Remove(tab);
             });
 
-            App.Messenger.Register<int>(App.MSG_CODE_CHANGED, (s) =>
+            App.Messenger.Register<string>(App.MSG_CODE_CHANGED, (s) =>
             {
                 (tabControl.SelectedItem as TabItem).Header = s;
             });
@@ -90,11 +102,12 @@ namespace prbd_1718_presences_g13
                     newTabForCourse(course, true);
                 });
 
+
             void newTabForCourse(Course course, bool isNew)
             {
                 var tab = new TabItem()
                 {
-                    Header = isNew ? "New Course" : "Course " + course.Code,
+                    Header = isNew ? "<New Course>" : "Course " + course.Code,
                     Content = new CoursesFormView(course, isNew)
                 };
                 tab.MouseDown += (o, e) =>

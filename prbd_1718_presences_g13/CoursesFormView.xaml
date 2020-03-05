@@ -33,32 +33,34 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Code :" VerticalAlignment="Center"/>
-            <TextBox Name="code"  Grid.Column="1" IsEnabled="{Binding IsNew}"  Text="{Binding Code}" VerticalAlignment="Center" Margin="0,0,-73,0" />
+            <f:ValidatedField Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" >
+                <TextBox Name="code"  Grid.Column="1"  IsEnabled="{Binding IsNew}"  Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="0,0,127,0" />
+            </f:ValidatedField>
             <Label Content="Title:" Grid.Row="1" VerticalAlignment="Center"/>
             <f:ValidatedField Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" >
-                <TextBox Name="titre" IsEnabled="{Binding Admin}" Grid.Row="1" Grid.Column="1" Text="{Binding Title}" VerticalAlignment="Center" Margin="0,0,-73,0" />
+                <TextBox Name="titre" IsEnabled="{Binding Admin}" Grid.Row="1" Grid.Column="1" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="0,0,-73,0" />
             </f:ValidatedField>
             <Label  Content="Teacher:" Grid.Row="2" VerticalAlignment="Center"/>
-            <ComboBox Name="prof" IsEnabled="{Binding Admin}" SelectedItem="{Binding Teacher}"  DisplayMemberPath="FullName" ItemsSource="{Binding Users}"  Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  />
+            <ComboBox Name="prof" IsEnabled="{Binding Admin}" SelectedItem="{Binding Teacher, UpdateSourceTrigger=PropertyChanged}"  DisplayMemberPath="FullName" ItemsSource="{Binding Users}"  Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  />
             <Label Content="Day Of Week :" Grid.Row="3" VerticalAlignment="Center" />
             <ComboBox Name="dayofweek" IsEnabled="{Binding Admin}" Grid.Row="3" SelectedIndex="{Binding DaysOfWeek}" ItemsSource="{Binding Day}"  VerticalAlignment="Center" Margin="0,1,0,2" Grid.Column="1" />
             <Label Content="Dates :" Grid.Row="4" VerticalAlignment="Center"/>
             <Label Content="Début:" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" />
             <f:ValidatedField Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="50,0,0,0">
-                <DatePicker Name="Sdate" IsEnabled="{Binding Admin}" Grid.Column="1" Grid.Row="4" SelectedDate="{Binding StartDate}" VerticalAlignment="Center"  />
+                <DatePicker Name="Sdate" IsEnabled="{Binding Admin}" Grid.Column="1" Grid.Row="4" SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"  />
             </f:ValidatedField>
             <Label Content="Fin:" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" />
             <f:ValidatedField Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,15,0">
-                <DatePicker Name="Fdate" IsEnabled="{Binding Admin}" Grid.Column="2" Grid.Row="4" SelectedDate="{Binding FinishDate}" VerticalAlignment="Center"  />
+                <DatePicker Name="Fdate" IsEnabled="{Binding Admin}" Grid.Column="2" Grid.Row="4" SelectedDate="{Binding FinishDate, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"  />
             </f:ValidatedField>
             <Label Content="Heures :" Grid.Row="5" VerticalAlignment="Center" />
             <Label Content="Début:" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" />
             <f:ValidatedField Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Margin="50,0,0,0" >
-                <TextBox Name="Stime" IsEnabled="{Binding Admin}" Grid.Column="1" Grid.Row="5" Text="{Binding StartTime}" VerticalAlignment="Center"  />
+                <TextBox Name="Stime" IsEnabled="{Binding Admin}" Grid.Column="1" Grid.Row="5" Text="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"  />
             </f:ValidatedField>
             <Label Content="Fin:" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" />
             <f:ValidatedField Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,15,0">
-                <TextBox Name="Etime" IsEnabled="{Binding Admin}" Grid.Column="2" Grid.Row="5" Text="{Binding EndTime}" VerticalAlignment="Center"   />
+                <TextBox Name="Etime" IsEnabled="{Binding Admin}" Grid.Column="2" Grid.Row="5" Text="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"   />
             </f:ValidatedField>
         </Grid>
 
@@ -76,7 +78,7 @@
                             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Margin="0,15,0,15" VerticalAlignment="Top" Height="21" FontWeight="Bold" DockPanel.Dock="Top">
                             <Run Text="Etudiants non inscrits à ce cours"/>
                             </TextBlock>
-                            <DataGrid Name="NpGrid"  Grid.Row="6" FontSize="10" ItemsSource="{Binding NonStudents}"  AutoGenerateColumns="False" SelectedItem="SelectedStudent" >
+                            <DataGrid Name="NpGrid"  Grid.Row="6" FontSize="10" ItemsSource="{Binding NonStudents}"  AutoGenerateColumns="False" SelectedItem="{Binding SelectedDesinscrit}" >
                                 <DataGrid.Columns>
                                     <DataGridTextColumn  IsReadOnly="True" Header = "Id" Binding="{Binding Path=Id}" Width="20" />
                                     <DataGridTextColumn  IsReadOnly="True" Header = "Nom" Binding="{Binding Path=LastName}" Width="40" />
@@ -85,21 +87,21 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </DockPanel>
-                        <StackPanel Grid.Column="1" Margin="0,74,0,21">
-                            <Button x:Name="Right" Content=">>" Command="{Binding DesToIns}" IsEnabled="{Binding Admin}"
+                        <StackPanel IsEnabled="{Binding Admin}" Grid.Column="1" Margin="0,45,0,21" RenderTransformOrigin="0.55,-0.137">
+                            <Button x:Name="Right" Content=">>" Command="{Binding DesToIns}" 
                                     HorizontalAlignment="Left" Margin="5,10,5,-7" VerticalAlignment="Top" Width="28" Padding="5,1" />
-                            <Button x:Name="Rignt1" Content=">" Command="{Binding }" IsEnabled="{Binding Admin}"
+                                <Button x:Name="Rignt1" Content=">" Command="{Binding Inscription}" CommandParameter="{Binding ElementName=NpGrid, Path=SelectedItem}" IsEnabled="{Binding SelectedDesinscrit, Converter={f:NullToBoolValueConverter}}"
                                     HorizontalAlignment="Left" Margin="5,10,5,-7" Grid.Row="3" VerticalAlignment="Top" Width="28" Padding="5,1"/>
-                            <Button x:Name="Left" Content="&lt;" Command="{Binding }" IsEnabled="{Binding Admin}"
+                                <Button x:Name="Left" Content="&lt;" Command="{Binding Desinscription}" CommandParameter="{Binding ElementName=IpGrid, Path=SelectedItem}" IsEnabled="{Binding SelectedInscrit, Converter={f:NullToBoolValueConverter}}"
                                     HorizontalAlignment="Left" Margin="5,10,0,-7" Grid.Row="3" VerticalAlignment="Top" Width="28" Padding="5,1"/>
-                            <Button x:Name="Left1" Content="&lt;&lt;" Command="{Binding InsToDes}" IsEnabled="{Binding Admin}"
+                            <Button x:Name="Left1" Content="&lt;&lt;" Command="{Binding InsToDes}"
                                     HorizontalAlignment="Left" Margin="5,10,5,-7" Grid.Row="3" VerticalAlignment="Top" Width="28" Padding="5,1"/>
                         </StackPanel>
                         <DockPanel Grid.Column="2" Margin="25,0,0,0">
                             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Margin="0,15,0,15" VerticalAlignment="Top" Height="21" FontWeight="Bold" DockPanel.Dock="Top">
                             <Run Text="Etudiants inscrits à ce cours"/>
                             </TextBlock>
-                            <DataGrid  Grid.Row="6" FontSize="10" ItemsSource="{Binding Students}"  AutoGenerateColumns="False" >
+                                <DataGrid Name="IpGrid"  Grid.Row="6" FontSize="10" ItemsSource="{Binding Students}"  AutoGenerateColumns="False" SelectedItem="{Binding SelectedInscrit}">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn  IsReadOnly="True" Header = "Id" Binding="{Binding Path=Id}" Width="20" />
                                     <DataGridTextColumn  IsReadOnly="True" Header = "Nom" Binding="{Binding Path=LastName}" Width="40" />
@@ -120,7 +122,7 @@
                                 <Setter Property="ContentTemplate" >
                                     <Setter.Value>
                                         <DataTemplate>
-                                            <Button  Content="{Binding}"  Command="{Binding DisplayEncodage}" IsEnabled="True" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="80">
+                                                <Button  Content="{Binding}" CommandParameter="{Binding Presence.CourseOccurrence}"  Command="{Binding DisplayEncodage}"  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="80">
                                                 <Button.LayoutTransform>
                                                     <RotateTransform Angle="270" />
                                                 </Button.LayoutTransform>

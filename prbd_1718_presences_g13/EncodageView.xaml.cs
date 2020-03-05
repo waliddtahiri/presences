@@ -26,6 +26,8 @@ namespace prbd_1718_presences_g13
 
         public ObservableCollection<Course> Courses { get; private set; }
         public ObservableCollection<Presence> Presences { get; private set; }
+        public ObservableCollection<Presence> Presence { get; private set; }
+        public ObservableCollection<Presence> Pres { get; private set; }
         public ObservableCollection<CourseOccurrence> CoursesOccurrence { get; private set; }
         public ObservableCollection<User> Users { get; private set; }
         public ObservableCollection<Student> Students { get; private set; }
@@ -38,12 +40,15 @@ namespace prbd_1718_presences_g13
 
             Courses = new ObservableCollection<Course>(App.CurrentUser.Course);
             Students = new ObservableCollection<Student>(CourseOccurence.Course.Student);
+            Presence = new ObservableCollection<Presence>(App.Model.presence);
             Users = new ObservableCollection<User>(App.Model.user);
             CoursesOccurrence = new ObservableCollection<CourseOccurrence>(App.Model.courseoccurrence);
-            Presences = new ObservableCollection<Presence>(CourseOccurence.Presence);
+            Pres = new ObservableCollection<Presence>(CourseOccurence.Presence);
+            Presences = new ObservableCollection<Presence>(Pres);
 
-            App.Messenger.Register<Course>(App.MSG_SAVE, Course => {App.Model.SaveChanges(); });
-            App.Messenger.Register<Course>(App.MSG_CANCEL, c => { CancelChanges();});
+
+            App.Messenger.Register<Course>(App.MSG_SAVE, Course => { App.Model.SaveChanges(); App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course); });
+            App.Messenger.Register<Course>(App.MSG_CANCEL, Course => { CancelChanges(); });
 
 
             InitializeComponent();
@@ -52,14 +57,17 @@ namespace prbd_1718_presences_g13
 
         public void CancelChanges()
         {
-
-                var change = (from c in App.Model.ChangeTracker.Entries<CourseOccurrence>()
-                              where c.Entity == CourseOccurence.Presence
+            foreach (Presence p in CourseOccurence.Presence)
+            {
+                var change = (from c in App.Model.ChangeTracker.Entries<Presence>()
+                              where c.Entity == p
                               select c).FirstOrDefault();
                 if (change != null)
                 {
                     change.Reload();
+                    Presences.RefreshFromModel(CourseOccurence.Presence);
                 }
+            }
         }
 
     }

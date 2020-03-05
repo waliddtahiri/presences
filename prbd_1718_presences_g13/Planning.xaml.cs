@@ -39,35 +39,33 @@ namespace prbd_1718_presences_g13
 
             Courses = new ObservableCollection<Course>(App.CurrentUser.Course);
             CoursesOccurrence = new ObservableCollection<CourseOccurrence>(App.Model.courseoccurrence);
-            Presences = new ObservableCollection<Presence>(App.Model.presence);
 
             var s = from c in CoursesOccurrence
                     where c.Course.User.Equals(App.CurrentUser) && c.Date.CompareTo(Date) >= 0 && c.Date.CompareTo(Date.AddDays(+7)) < 0
                     select c;
             CourseOccurrence = new ObservableCollection<CourseOccurrence>(s);
 
-            App.Messenger.Register<Course>(App.MSG_CANCEL, Course => { CancelChanges(); });
-
+            Presences = new ObservableCollection<Presence>(App.Model.presence);
 
             PreviousWeek = new RelayCommand(() => { Datum.SelectedDate = Date.AddDays(-7); CourseOccurrence.RefreshFromModel(s); });
             NextWeek = new RelayCommand(() => { Datum.SelectedDate = Date.AddDays(+7); CourseOccurrence.RefreshFromModel(s); });
-            
-            DisplayEncodage = 
-            new RelayCommand<CourseOccurrence> (c => {
 
-                foreach (Student st in c.Course.Student)
+
+            App.Messenger.Register<Course>(App.MSG_CANCEL, Course => { });
+
+            DisplayEncodage = new RelayCommand<CourseOccurrence>((co) => {
+
+                foreach(Student st in co.Course.Student)
                 {
-                    Presence p = new Presence(st.Id, c.Id);
-
-                    if (c.Presence.Count < c.Course.Student.Count && !Presences.Contains(p))
+                    Presence p = new Presence(st.Id, co.Id);
+                    if (co.Course.Student.Count() > co.Presence.Count() && !Presences.Any(pr => pr.Student == p.Student && pr.CourseOccurence == p.CourseOccurence))
                     {
                         App.Model.presence.Add(p);
                     }
-   
                 }
-                App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, c);
+                App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, co);
             });
-
+            
             InitializeComponent();
 
             

@@ -79,6 +79,15 @@ namespace prbd_1718_presences_g13.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Code doit être unique et non nul.
+        /// </summary>
+        public static string Error_Exist {
+            get {
+                return ResourceManager.GetString("Error_Exist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Doit être &gt;= date de début.
         /// </summary>
         public static string Error_FinishDate {

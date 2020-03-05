@@ -31,8 +31,9 @@ namespace prbd_1718_presences_g13
         public ObservableCollection<Presence> Presences { get; private set; }
         public ObservableCollection<CourseOccurrence> CoursesOccurrence { get; private set; }
         public ObservableCollection<User> Users { get; private set; }
-        public ObservableCollection<Student> AllStudents { get; private set; }
-        public ObservableCollection<Student> Students { get; private set; }
+        public ObservableCollection<Student> AllStudents { get; set; }
+        public ObservableCollection<Student> Students { get;  set; }
+        public ObservableCollection<Student> Stud { get;  set; }
         public ObservableCollection<Student> NonStudents { get; set; }
         public ObservableCollection<String> Day { get; set; }
 
@@ -62,6 +63,8 @@ namespace prbd_1718_presences_g13
         public ICommand DisplayEncodage { get; set; }
         public ICommand DesToIns { get; set; }
         public ICommand InsToDes { get; set; }
+        public ICommand Inscription { get; set; }
+        public ICommand Desinscription { get; set; }
         public ICommand Delete { get; set; }
 
         public CoursesFormView(Course course, bool isNew)
@@ -75,42 +78,77 @@ namespace prbd_1718_presences_g13
             Courses = new ObservableCollection<Course>(App.Model.course);
             Users = new ObservableCollection<User>(App.Model.user);
             AllStudents = new ObservableCollection<Student>(App.Model.student);
-            Students = new ObservableCollection<Student>(Course.Student);
+            Stud = new ObservableCollection<Student>(Course.Student);
+            Students = new ObservableCollection<Student>(Stud);
+            NonStudents = new ObservableCollection<Student>(AllStudents.Except(Students));
             CoursesOccurrence = new ObservableCollection<CourseOccurrence>(Course.CourseOccurrence);
             Presences = new ObservableCollection<Presence>(App.Model.presence);
-            NonStudents = new ObservableCollection<Student>(AllStudents.Except(Students));
-            Day = new ObservableCollection<String>(Course.Day);
+            Day = new ObservableCollection<String>(Course.Days);
+
+            Valid();
 
             App.Messenger.Register<Course>(App.MSG_CANCEL, Course => { CancelChanges(); });
 
             App.Messenger.Register<Course>(App.MSG_SAVE, Course => { SaveChanges(); });
 
-            DisplayEncodage = new RelayCommand<CourseOccurrence>(c => { App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, c); });
+            DisplayEncodage = new RelayCommand<CourseOccurrence>(c => {
 
-            DesToIns = new RelayCommand(() => { if (NonStudents.Count != 0) {
-                    Course.Student.Add(NonStudents.First());
+                foreach (Student st in c.Course.Student)
+                {
+                    Presence p = new Presence(st.Id, c.Id);
+
+                    if (c.Presence.Count < c.Course.Student.Count && !Presences.Any(pp => pp.Student == p.Student && pp.CourseOccurence == p.CourseOccurence))
+                    {
+                        App.Model.presence.Add(p);
+                    }
+
+                }
+                App.Messenger.NotifyColleagues(App.MSG_DISPLAY_ENCODAGE, c);
+            });
+
+            DesToIns = new RelayCommand(() => { while (NonStudents.Count != 0) {
+                    Stud.Add(NonStudents.First());
                     NonStudents.Remove(NonStudents.First());
-                    Students.RefreshFromModel(Course.Student);
+                }
+                Students.RefreshFromModel(Stud);
+                App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
+            });
+
+            Inscription = new RelayCommand(() => {
+                if (NonStudents.Count != 0)
+                {
+                    Stud.Add(SelectedDesinscrit);
+                    NonStudents.Remove(SelectedDesinscrit);
+                    Students.RefreshFromModel(Stud);
                     App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
                 }
             });
 
-
-            InsToDes = new RelayCommand(() => { if (Students.Count != 0) {
-                    Course.Student.Remove(Course.Student.First());
-                    Students.Remove(Students.First()); }
-                    Students.RefreshFromModel(Course.Student);
+            Desinscription = new RelayCommand(() => {
+                if (Students.Count != 0)
+                {
+                    Stud.Remove(SelectedInscrit);
+                    Students.Remove(SelectedInscrit);
+                    Students.RefreshFromModel(Stud);
                     NonStudents.RefreshFromModel(AllStudents.Except(Students));
                     App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
+                }
+            });
+
+            InsToDes = new RelayCommand(() => { if (Students.Count != 0)
+                {
+                    Stud.Clear();
+                    Students.RefreshFromModel(Stud);
+                    NonStudents.RefreshFromModel(AllStudents.Except(Students));
+                    App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
+                }
             });
 
             Delete = new RelayCommand(DeleteAction, () => { return !IsNew; });
 
-            InitializeComponent();
-
-            Students.RefreshFromModel(Course.Student);
-
             HistoriquePrésences();
+
+            InitializeComponent();  
         }
 
 
@@ -159,15 +197,32 @@ namespace prbd_1718_presences_g13
             }
         }
 
+        public bool NpSelected
+        {
+            get
+            {
+                return App.CurrentUser.Role == "admin" && SelectedDesinscrit != null;
+            }
+        }
+        public bool IpSelected
+        {
+            get
+            {
+                return App.CurrentUser.Role == "admin" && SelectedInscrit != null;
+            }
+        }
+
         public int Code
         {
             get {
                  return Course.Code; }
             set
             {
+
                 Course.Code = value;
+                Valid();
                 RaisePropertyChanged(nameof(Code));
-                App.Messenger.NotifyColleagues(App.MSG_CODE_CHANGED, string.IsNullOrEmpty(value.ToString()) ? "<New Course>" : "Course " + value);
+                App.Messenger.NotifyColleagues(App.MSG_CODE_CHANGED, string.IsNullOrEmpty(value.ToString()) ? "<New Course>" : "Course " + value.ToString());
             }
         }
 
@@ -209,8 +264,7 @@ namespace prbd_1718_presences_g13
 
         public DateTime StartDate
         {
-            get { if (IsNew)
-                    return DateTime.Now;
+            get { 
                   return Course.StartDate; }
             set
             {
@@ -224,8 +278,6 @@ namespace prbd_1718_presences_g13
         public DateTime FinishDate
         {
             get {
-                 if (IsNew)
-                    return DateTime.Now;
                  return Course.FinishDate; }
             set
             {
@@ -233,6 +285,31 @@ namespace prbd_1718_presences_g13
                 RaisePropertyChanged(nameof(FinishDate));
                 Valid();
                 App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
+            }
+        }
+
+        public void Occurences()
+        {
+            if (!IsNew && Course.CourseOccurrence.First().Date.CompareTo(StartDate) != 0 || Course.CourseOccurrence.Last().Date.CompareTo(FinishDate) != 0)
+            { 
+                var occ = App.Model.courseoccurrence.Where(p => p.Course.Code==Course.Code).Include("Presence").Include("Course.CourseOccurrence");
+                App.Model.courseoccurrence.RemoveRange(occ);
+
+                var presence = App.Model.presence.Where(p => p.CourseOccurrence.Course.Code == Course.Code).Include("CourseOccurrence.Presence").Include("Students");
+                App.Model.presence.RemoveRange(presence);
+
+                DateTime Occurence = StartDate;
+
+                while ((int)Occurence.DayOfWeek != DaysOfWeek + 1)
+                {
+                    Occurence = Occurence.AddDays(+1);
+                }
+                do
+                    {
+                        CourseOccurrence c = new CourseOccurrence(Occurence, Course);
+                        App.Model.courseoccurrence.Add(c);
+                        Occurence = Occurence.AddDays(+7);
+                    } while (Occurence.CompareTo(FinishDate) <= 0);
             }
         }
 
@@ -264,9 +341,9 @@ namespace prbd_1718_presences_g13
         {
                 ClearErrors();
 
-                if (IsNew && Courses.Any(c => Code == c.Code))
+                if (IsNew && Courses.Any(c => Code == c.Code) || IsNew && Code == 0)
                 {
-                     AddError("Code", Properties.Resources.Error_Required);
+                     AddError("Code", Properties.Resources.Error_Exist);
                 }
                 if (string.IsNullOrEmpty(Title))
                 {
@@ -276,10 +353,11 @@ namespace prbd_1718_presences_g13
                 {
                         AddError("Teacher", Properties.Resources.Error_Required); 
                 }
-                if (StartDate.CompareTo(FinishDate)>0)
+                if (StartDate.CompareTo(FinishDate) > 0 || FinishDate.CompareTo(StartDate) < 0)
                 {
                         AddError("StartDate", Properties.Resources.Error_StartDate);
                         AddError("FinishDate", Properties.Resources.Error_FinishDate);
+                        
                 }
                 if (StartTime.CompareTo(EndTime) > 0)
                 {
@@ -319,16 +397,32 @@ namespace prbd_1718_presences_g13
             }
         }
 
-        public Student selectedStudent;
-        public Student SelectedStudent
+        public Student selectedInscrit;
+        public Student SelectedInscrit
         {
             get
             {
-                return selectedStudent;
+                return selectedInscrit;
             }
             set
             {
-                selectedStudent = value;
+                selectedInscrit = value;
+                RaisePropertyChanged(nameof(SelectedInscrit));
+            }
+        }
+
+        public Student selectedDesinscrit;
+        public Student SelectedDesinscrit
+        {
+            get
+            {
+                return selectedDesinscrit;
+            }
+            set
+            {
+                selectedDesinscrit = value;
+                RaisePropertyChanged(nameof(SelectedDesinscrit));
+                
             }
         }
 
@@ -337,50 +431,100 @@ namespace prbd_1718_presences_g13
             if (IsNew && Valid() && !HasErrors)
             {
                 App.Model.course.Add(Course);
+                DateTime Occurence = StartDate;
+
+                while ((int)Occurence.DayOfWeek != DaysOfWeek + 1)
+                {
+                    Occurence = Occurence.AddDays(+1);
+                }
+                do
+                {
+                    CourseOccurrence c = new CourseOccurrence(Occurence, Course);
+                    App.Model.courseoccurrence.Add(c);
+                    Occurence = Occurence.AddDays(+7);
+                } while (Occurence.CompareTo(FinishDate) <= 0);
                 IsNew = false;
             }
-            else if (Valid() && !HasErrors)
+            else if (!IsNew && Valid() && !HasErrors)
             {
-                App.Model.SaveChanges();
+                Occurences();
             }
-            else
+            if (Stud.Count() < Course.Student.Count())
             {
-                App.Messenger.NotifyColleagues(App.MSG_CANCEL, Course);
+                foreach(var m in Course.Student)
+                {
+                    var presences = App.Model.presence.Where(p=>p.Student==m.Id && p.CourseOccurrence.Course.Code==Course.Code).Include("CourseOccurrence.Presence").Include("Students");
+                    App.Model.presence.RemoveRange(presences);
+                }
+                Course.Student.Clear();
+            }
+            while (Stud.Count != 0)
+            {
+                Course.Student.Add(Stud.First());
+                Stud.Remove(Stud.First());
             }
             App.Model.SaveChanges();
             App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
+            CoursesOccurrence.RefreshFromModel(App.Model.courseoccurrence.Where(c=>c.Course.Code==Course.Code));
+            HistoriquePrésences();
+            Stud = new ObservableCollection<Student>(Course.Student);
         }
+
 
         public void CancelChanges()
         {
-            App.CancelChanges();
-            RaisePropertyChanged(nameof(Title));
-            RaisePropertyChanged(nameof(DaysOfWeek));
-            RaisePropertyChanged(nameof(Teacher));
-            RaisePropertyChanged(nameof(StartDate));
-            RaisePropertyChanged(nameof(FinishDate));
-            RaisePropertyChanged(nameof(StartTime));
-            RaisePropertyChanged(nameof(EndTime));
-            Courses = new ObservableCollection<Course>(App.Model.course);
-            Users = new ObservableCollection<User>(App.Model.user);
-            AllStudents = new ObservableCollection<Student>(App.Model.student);
-            Students = new ObservableCollection<Student>(App.Model.student);
-            CoursesOccurrence = new ObservableCollection<CourseOccurrence>(App.Model.courseoccurrence);
-            Presences = new ObservableCollection<Presence>(App.Model.presence);
-            NonStudents = new ObservableCollection<Student>(App.Model.student);
-            Day = new ObservableCollection<String>(Course.Day);
+            if (IsNew)
+            {
+                Code = 0;
+                Title = null;
+                Teacher = null;
+                DaysOfWeek = 0;
+                StartDate = new DateTime(0001, 01, 01);
+                FinishDate = new DateTime(0001, 01, 01);
+                RaisePropertyChanged(nameof(Course));
+            }
+            else
+            {
+                var change = (from c in App.Model.ChangeTracker.Entries<Course>()
+                              where c.Entity == Course
+                              select c).FirstOrDefault();
+                if (change != null)
+                {
+                    change.Reload();
+                    RaisePropertyChanged(nameof(Title));
+                    RaisePropertyChanged(nameof(Teacher));
+                    RaisePropertyChanged(nameof(DaysOfWeek));
+                    RaisePropertyChanged(nameof(StartDate));
+                    RaisePropertyChanged(nameof(FinishDate));
+                    RaisePropertyChanged(nameof(StartTime));
+                    RaisePropertyChanged(nameof(EndTime));
+                    Stud.RefreshFromModel(Course.Student);
+                    Students.RefreshFromModel(Course.Student);
+                    NonStudents.RefreshFromModel(AllStudents.Except(Students));
+                }
+            }
+            
         }
 
         private void DeleteAction()
         {
-            var courseToDelete = App.Model.course.Where(c => c.Code == Course.Code)
-            .Include("CourseOccurrence.Presence")
-            .Include("Student")
-            .SingleOrDefault();
-            App.Model.course.Remove(courseToDelete);
-            App.Model.SaveChanges();
-            App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
-            App.Messenger.NotifyColleagues(App.MSG_CLOSE_TAB, Parent);
+            if (MessageBox.Show("Vous êtes sur le point de supprimer un cours et toutes les informations s'y rapportant. Voulez-vous" +
+                " continuer ?", "Delete Course " + Course.Code, MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+            {
+                var courseToDelete = App.Model.course.Where(c => c.Code == Course.Code)
+                .Include("CourseOccurrence.Presence")
+                .Include("CourseOccurrence.Course")
+                .Include("Student")
+                .SingleOrDefault();
+                App.Model.course.Remove(courseToDelete);
+
+                var occ = App.Model.courseoccurrence.Where(p => p.Course.Code == Course.Code);
+                App.Model.courseoccurrence.RemoveRange(occ);
+
+                App.Model.SaveChanges();
+                App.Messenger.NotifyColleagues(App.MSG_COURSE_CHANGED, Course);
+                App.Messenger.NotifyColleagues(App.MSG_CLOSE_TAB, Parent);
+            }
         }
     }
 }

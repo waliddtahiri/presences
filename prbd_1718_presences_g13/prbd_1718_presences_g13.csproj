@@ -80,6 +80,7 @@
     <Compile Include="CourseOccurrence.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="CourseOccurrence.ext.cs" />
     <Compile Include="CoursesFormView.xaml.cs">
       <DependentUpon>CoursesFormView.xaml</DependentUpon>
     </Compile>

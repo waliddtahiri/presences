@@ -69,10 +69,6 @@ namespace prbd_1718_presences_g13
 
             App.Messenger.Register<Course>(App.MSG_COURSE_CHANGED, Course => { ApplyFilterAction(); });
 
-            App.Messenger.Register<Course>(App.MSG_CANCEL, Course => { App.CancelChanges(); ApplyFilterAction(); });
-
-            App.Messenger.Register<Course>(App.MSG_SAVE, Course => { ApplyFilterAction(); });
-
             Courses = new ObservableCollection<Course>(App.Model.course);
 
             Users = new ObservableCollection<User>(App.Model.user);
@@ -216,7 +212,6 @@ namespace prbd_1718_presences_g13
             }
 
         }
-
 
         private Course selectedCourse;
         public Course SelectedCourse

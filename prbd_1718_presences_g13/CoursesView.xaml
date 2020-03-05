@@ -56,7 +56,7 @@
                 <DataGridTextColumn  IsReadOnly="True" Header = "End Time" Binding="{Binding Path=EndTime}" Width="60" />
                 <DataGridTextColumn  IsReadOnly="True" Header = "Teacher" Binding="{Binding Path=User.FullName}" Width="80" />
                 <DataGridTextColumn  IsReadOnly="True" Header = "# Students" Binding="{Binding Path=Student.Count}" Width="*" />
-                <DataGridTextColumn  IsReadOnly="True" Header = "% Completed" Binding="{Binding Path=Courseoccurence}" Width="*" />
+                <DataGridTextColumn  IsReadOnly="True" Header = "% Completed" Binding="{Binding Path=Percent}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="8" Grid.Column="3">

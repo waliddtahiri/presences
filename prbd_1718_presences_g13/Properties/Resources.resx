@@ -123,6 +123,9 @@
   <data name="Error_EndTime" xml:space="preserve">
     <value>Doit être &gt;= heure de début</value>
   </data>
+  <data name="Error_Exist" xml:space="preserve">
+    <value>Code doit être unique et non nul</value>
+  </data>
   <data name="Error_FinishDate" xml:space="preserve">
     <value>Doit être &gt;= date de début</value>
   </data>
